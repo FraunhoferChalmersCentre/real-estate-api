@@ -1,0 +1,6 @@
+name: substation_type
+in: query
+required: false
+description: Filter on the substation type
+schema:
+  type: string

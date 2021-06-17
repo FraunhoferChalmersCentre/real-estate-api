@@ -1,0 +1,6 @@
+name: substation_id
+in: path
+required: true
+description: The id of the substation to retrieve
+schema:
+  type: string

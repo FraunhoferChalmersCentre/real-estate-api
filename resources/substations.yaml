@@ -1,0 +1,17 @@
+get:
+  summary: List all substations
+  operationId: listSubstations
+  description: List all substations
+  tags:
+    - substations
+  parameters:
+    - $ref: "../parameters/query/substation_type.yaml"
+  responses:
+    '200':
+      description: An array of substations
+      content:
+        application/json:
+          schema:
+            $ref: "../schemas/Substation.yaml"
+    default:
+      $ref: "../responses/UnexpectedError.yaml"

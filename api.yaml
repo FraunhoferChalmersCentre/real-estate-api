@@ -1,0 +1,19 @@
+openapi: "3.0.0"
+info:
+  version: 1.0.0
+  title: Real Estate API
+  description: API for real estate owners.
+tags:
+  - name: substations
+paths:
+  /substations:
+    $ref: "./resources/substations.yaml"
+  /substations/{substation_id}:
+    $ref: "./resources/substation.yaml"
+components:
+  parameters:
+    $ref: "./parameters/_index.yaml"
+  schemas:
+    $ref: "./schemas/_index.yaml"
+  responses:
+    $ref: "./responses/_index.yaml"

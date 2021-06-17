@@ -1,0 +1,4 @@
+Substation:
+  $ref: "./Substation.yaml"
+Error:
+  $ref: "./Error.yaml"
