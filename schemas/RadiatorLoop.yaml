@@ -1,0 +1,18 @@
+type: object
+description: A radiator loop is the circuit serving the building with heating.
+required:
+  - id
+properties:
+  id:
+    description: An ID, can be any unique ID defined by the implementer. Shouldn't exceed 36 characters (the length of a UUID)
+    type: string
+  feedTemperatureSensorId:
+    type: string
+    description: The ID of the water feed temperature sensor.
+  returnTemperatureSensorId:
+    type: string
+    description: The ID of the water return temperature sensor.
+  flowSensorId:
+    type: string
+    description: The ID of the water flow sensor. (TODO Should this be an energy meter instead?)
+      

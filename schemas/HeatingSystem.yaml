@@ -1,0 +1,21 @@
+type: object
+description: A heating system is a closed system with a connected hot water source.
+required:
+  - id
+properties:
+  id:
+    description: An ID, can be any unique ID defined by the implementer. Shouldn't exceed 36 characters (the length of a UUID)
+    type: string
+  name:
+    type: string
+    description: A common description of the heating system
+  feedTemperatureSensorId:
+    type: string
+    description: The ID of the water feed temperature sensor.
+  returnTemperatureSensorId:
+    type: string
+    description: The ID of the water return temperature sensor.
+  flowSensorId:
+    type: string
+    description: The ID of the water flow sensor. (TODO Should this be an energy meter instead?)
+      

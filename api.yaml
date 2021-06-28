@@ -6,10 +6,58 @@ info:
 tags:
   - name: substations
 paths:
-  /substations:
-    $ref: "./resources/substations.yaml"
-  /substations/{substation_id}:
-    $ref: "./resources/substation.yaml"
+  /heatingsystems:
+    get:
+      description: Lists all heatingsystems available.
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: './schemas/HeatingSystem.yaml'
+  #  $ref: "./resources/heatingssystems.yaml"
+  /heatingsystem/{id}:
+    get:
+      description: Get metadata for a heatingsystem
+  /heatingsystem/{id}/buildings/:
+    get:
+      description: List all buildings served by the heating system.
+  /heatingsystem/{id}/buildings/{buildingid}/:
+    get:
+      description: Return metadata for the building.
+  /heatingsystem/{id}/buildings/{buildingid}/sensors/:
+    get:
+      description: List all sensors in the building.
+  /heatingsystem/{id}/buildings/{buildingid}/radiatorloop/:
+    get:
+      description: 
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: './schemas/RadiatorLoop.yaml'
+  /sensors/{id}:
+    get:
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: './schemas/Observation.yaml'
+  /sensors/{id}/history/:
+    get:
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: './schemas/Observation.yaml'
+
 components:
   parameters:
     $ref: "./parameters/_index.yaml"

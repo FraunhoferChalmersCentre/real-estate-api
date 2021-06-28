@@ -1,4 +1,8 @@
-Substation:
-  $ref: "./Substation.yaml"
+Heatingsystems:
+  $ref: "./HeatingSystem.yaml"
+Radiator loop:
+  $ref: "./RadiatorLoop.yaml"
+Observation:
+  $ref: "./Observation.yaml"
 Error:
   $ref: "./Error.yaml"
