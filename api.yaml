@@ -3,12 +3,16 @@ info:
   version: 1.0.0
   title: Real Estate API
   description: API for real estate owners.
+# TODO Authentication
+# TODO Version path prefix
 tags:
-  - name: substations
+  - name: Heating Systems
 paths:
   /heatingsystems:
     get:
       description: Lists all heatingsystems available.
+      tags:
+        - Heating Systems
       responses:
         '200':
           content:
@@ -17,30 +21,61 @@ paths:
                 type: array
                 items:
                   $ref: './schemas/HeatingSystem.yaml'
-  #  $ref: "./resources/heatingssystems.yaml"
   /heatingsystem/{id}:
     get:
       description: Get metadata for a heatingsystem
-  /heatingsystem/{id}/buildings/:
+      tags:
+        - Heating Systems      
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: './schemas/HeatingSystem.yaml'
+  /heatingsystem/{id}/heatingcurve/:
+    get:
+      description: Returns the configured heating curve for this heating system.
+      tags:
+        - Heating Systems
+      # TODO Dataformat?
+  /heatingsystem/{id}/radioatorloops/{radioatorloop}/buildings/:
     get:
       description: List all buildings served by the heating system.
-  /heatingsystem/{id}/buildings/{buildingid}/:
+      tags:
+        - Radioator loops
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: './schemas/Building.yaml'      
+#  /heatingsystem/{id}/buildings/{buildingid}/:
+#    get:
+#      description: Return metadata for the building.
+#  Redundant - all info finns i /buildings/
+  /heatingsystem/{id}/radiatorloops/{radiatorloopid}/buildings/{buildingid}/temperaturesensors/:
     get:
-      description: Return metadata for the building.
-  /heatingsystem/{id}/buildings/{buildingid}/sensors/:
+      description: List all indoor temperature sensors in the building relevant for the agent.
+      tags:
+        - Radioator loops      
+  /heatingsystem/{id}/radiatorloops/:
     get:
-      description: List all sensors in the building.
-  /heatingsystem/{id}/buildings/{buildingid}/radiatorloop/:
-    get:
-      description: 
+      description: List all radiatorloops connected to the heating system.      
+      tags:
+        - Radioator loops      
       responses:
         '200':
           content:
             application/json:
               schema:
                 $ref: './schemas/RadiatorLoop.yaml'
-  /sensors/{id}:
+  /sensors/{id}/current/:
     get:
+      description: Returns the most recent observation of the sensor. Can be implemented as a real time value or be the most recent value pushed to central storage.
+      tags:
+        - Sensors and recommendations    
       responses:
         '200':
           content:
@@ -49,14 +84,31 @@ paths:
                 $ref: './schemas/Observation.yaml'
   /sensors/{id}/history/:
     get:
+      tags:
+        - Sensors and recommendations
       responses:
         '200':
           content:
             application/json:
+            # TODO Meta data in return value with limit, next, previous etc.
               schema:
                 type: array
                 items:
                   $ref: './schemas/Observation.yaml'
+# TODO Add parameters
+  /recommendations/{id}:
+  # Bör inte vara modellerad som en actuator utan som en offset-rekomendation
+  # Tre värden: Tidpunkt start, tidpunkt slut, offset i grader C
+  # Förslag att lägga till ett fjärde med "agent-ID" för att särskilja flera agenter
+  # Advice, propsal, proposition, 
+    post:
+      tags:
+        - Sensors and recommendations
+      responses:
+        '200':
+          content:
+            application/json:
+
 
 components:
   parameters:

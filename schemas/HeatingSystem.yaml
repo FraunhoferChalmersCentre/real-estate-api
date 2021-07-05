@@ -15,7 +15,28 @@ properties:
   returnTemperatureSensorId:
     type: string
     description: The ID of the water return temperature sensor.
-  flowSensorId:
+  energyMeterSensorId:
     type: string
-    description: The ID of the water flow sensor. (TODO Should this be an energy meter instead?)
+    description: The ID of the water energy meter.
+  outdoorTemperatureSensorId:
+    type: string
+    description: The ID of the outdoor temperature sensor.
+  targetTemperatureOffsetRecommendationId:
+    type: string
+    description: The target ID for heating system recommendations.
+  additionalEnergySources:
+    description: A list of additional energy sources.
+    type: array
+    items:
+      type: object
+      properties:
+        sensorId:
+          type: string
+          description: The ID of the energy meter.
+        description:
+          type: string
+          description: Description of the energy source
+
+# TODO Tillskottsenergi från t ex värmeåtervinning
+  
       

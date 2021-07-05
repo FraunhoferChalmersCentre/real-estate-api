@@ -4,5 +4,9 @@ Radiator loop:
   $ref: "./RadiatorLoop.yaml"
 Observation:
   $ref: "./Observation.yaml"
+Building:
+  $ref: "./Building.yaml"
+Recommendation:
+  $ref: "./Recommendation.yaml"
 Error:
   $ref: "./Error.yaml"

@@ -1,0 +1,14 @@
+type: object
+description: A physical building served by a parent heating system.
+required:
+  - id
+properties:
+  id:
+    description: An ID, can be any unique ID defined by the implementer. Shouldn't exceed 36 characters (the length of a UUID)
+    type: string
+  name:
+    type: string
+    description: Building name or street name(s)
+  city:
+    type: string
+    description: The city the building is located in. Used for weather predictions. 

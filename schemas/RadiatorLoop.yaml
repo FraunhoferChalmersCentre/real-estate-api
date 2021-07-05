@@ -12,7 +12,7 @@ properties:
   returnTemperatureSensorId:
     type: string
     description: The ID of the water return temperature sensor.
-  flowSensorId:
+  energyMeterSensorId:
     type: string
-    description: The ID of the water flow sensor. (TODO Should this be an energy meter instead?)
+    description: The ID of the energy meter.
       
