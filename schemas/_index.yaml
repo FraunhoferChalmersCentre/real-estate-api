@@ -1,6 +1,6 @@
-Heatingsystems:
+Heatingsystem:
   $ref: "./HeatingSystem.yaml"
-Radiator loop:
+Radiatorloop:
   $ref: "./RadiatorLoop.yaml"
 Observation:
   $ref: "./Observation.yaml"

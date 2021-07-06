@@ -58,7 +58,7 @@ paths:
         500:
           $ref: '#/components/responses/Error'
 
-  /heatingsystem/{id}/heatingcurve/:
+  /heatingsystem/{id}/heatingcurve:
     get:
       description: >
         Returns the configured heating curve for this heating system.
@@ -73,7 +73,7 @@ paths:
         500:
           $ref: '#/components/responses/Error'
 
-  /heatingsystem/{id}/recommendations/:
+  /heatingsystem/{id}/recommendations:
     post:
       tags:
         - Heating Systems
@@ -91,9 +91,26 @@ paths:
 ##################################################                
 # RADIATOR LOOPS
 ##################################################
-  /heatingsystem/{id}/radioatorloops/{radioatorloop}/buildings/:
+
+  /heatingsystem/{id}/radiatorloops:
     get:
-      description: List all buildings served by this radioator loop.
+      description: List all radiatorloops connected to the heating system.      
+      tags:
+        - Radiator loops      
+      responses:
+        200:
+          content:
+            application/json:
+              schema:
+                $ref: './schemas/RadiatorLoop.yaml'
+        401:
+          $ref: '#/components/responses/NotAuthorized'
+        500:
+          $ref: '#/components/responses/Error'
+
+  /heatingsystem/{id}/radiatorloops/{radiatorloopid}/buildings:
+    get:
+      description: List all buildings served by this radiator loop.
       tags:
         - Radiator loops
       responses:
@@ -109,7 +126,7 @@ paths:
         500:
           $ref: '#/components/responses/Error'
 
-  /heatingsystem/{id}/radiatorloops/{radiatorloopid}/buildings/{buildingid}/temperaturesensors/:
+  /heatingsystem/{id}/radiatorloops/{radiatorloopid}/buildings/{buildingid}/temperaturesensors:
     get:
       description: List all indoor temperature sensors in the building relevant for the agent.
       tags:
@@ -128,24 +145,29 @@ paths:
         500:
           $ref: '#/components/responses/Error' 
 
-  /heatingsystem/{id}/radiatorloops/:
+
+##################################################                
+# SENSORS
+##################################################
+
+  /sensors/{id}:
     get:
-      description: List all radiatorloops connected to the heating system.      
+      description: Metadata for a sensor.
       tags:
-        - Radiator loops      
+        - Sensors    
       responses:
         200:
           content:
             application/json:
               schema:
-                $ref: './schemas/RadiatorLoop.yaml'
+                $ref: './schemas/Sensor.yaml'
         401:
           $ref: '#/components/responses/NotAuthorized'
+        404:
+          description: Not found
         500:
           $ref: '#/components/responses/Error'
-##################################################                
-# SENSORS
-##################################################
+
   /sensors/{id}/observations/latest:
     get:
       description: >
@@ -164,7 +186,9 @@ paths:
         404:
           description: Not found
         500:
-          $ref: '#/components/responses/Error'                
+          $ref: '#/components/responses/Error'
+
+
   /sensors/{id}/observations:
     description: >
       Returns stored historical observations for the sensor. The API doesn't support pagination in this version, 
