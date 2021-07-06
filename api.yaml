@@ -1,119 +1,227 @@
 openapi: "3.0.0"
 info:
   version: 1.0.0
-  title: Real Estate API
-  description: API for real estate owners.
-# TODO Authentication
-# TODO Version path prefix
-tags:
-  - name: Heating Systems
+  title: Real Estate heating system API
+  description: |
+    API implemented by real estate owners. Exposes meta data, sensor observations and the 
+    capability of receiving heat system control recommendations from an external agent.
+
+    Example use case of adding a new heating system to a recommendation agent and start making recommendations:
+    1. The agent system lists all available heating systems
+    1. The agent adds a heating system to its collection of managed systems
+    1. The agent makes multiple calls to the /observations endpoint, creating a model of the heating system and its connected buildings.
+    1. The agent begin its control cycle by making calls to the /observations/latest endpoint, calculates a posts target feed temperature recommendations to the /recommendations/ endpoint
+    1. The agent recommendation is received by the local building automation system and used to adjust actuators
+
+servers:
+  - url: '{server}/v1'
+    variables:
+      server:
+        default: https://api.realestateowner.com
+security:
+  - bearerAuth: [] 
 paths:
+##################################################                
+# HEATING SYSTEMS
+##################################################
   /heatingsystems:
     get:
-      description: Lists all heatingsystems available.
+      description: Lists all available heatingsystems.
       tags:
         - Heating Systems
       responses:
-        '200':
+        200:
           content:
             application/json:
               schema:
                 type: array
                 items:
                   $ref: './schemas/HeatingSystem.yaml'
+        401:
+          $ref: '#/components/responses/NotAuthorized'
+        500:
+          $ref: '#/components/responses/Error'
+
   /heatingsystem/{id}:
     get:
       description: Get metadata for a heatingsystem
       tags:
         - Heating Systems      
       responses:
-        '200':
+        200:
           content:
             application/json:
               schema:
                 $ref: './schemas/HeatingSystem.yaml'
+        401:
+          $ref: '#/components/responses/NotAuthorized'
+        500:
+          $ref: '#/components/responses/Error'
+
   /heatingsystem/{id}/heatingcurve/:
     get:
-      description: Returns the configured heating curve for this heating system.
+      description: >
+        Returns the configured heating curve for this heating system.
+        Data format is still TBD. Will most likely be optional since 
+        not all heating systems are controlled using a heating curve.
       tags:
         - Heating Systems
-      # TODO Dataformat?
+      responses:
+        200:
+        401:
+          $ref: '#/components/responses/NotAuthorized'
+        500:
+          $ref: '#/components/responses/Error'
+
+  /heatingsystem/{id}/recommendations/:
+    post:
+      tags:
+        - Heating Systems
+      responses:
+        200:
+          content:
+            application/json:
+              schema:
+                $ref: './schemas/Recommendation.yaml'
+        401:
+          $ref: '#/components/responses/NotAuthorized'
+        500:
+          $ref: '#/components/responses/Error'
+
+##################################################                
+# RADIATOR LOOPS
+##################################################
   /heatingsystem/{id}/radioatorloops/{radioatorloop}/buildings/:
     get:
-      description: List all buildings served by the heating system.
+      description: List all buildings served by this radioator loop.
       tags:
         - Radioator loops
       responses:
-        '200':
+        200:
           content:
             application/json:
               schema:
                 type: array
                 items:
-                  $ref: './schemas/Building.yaml'      
-#  /heatingsystem/{id}/buildings/{buildingid}/:
-#    get:
-#      description: Return metadata for the building.
-#  Redundant - all info finns i /buildings/
+                  $ref: './schemas/Building.yaml'  
+        401:
+          $ref: '#/components/responses/NotAuthorized'
+        500:
+          $ref: '#/components/responses/Error'
+
   /heatingsystem/{id}/radiatorloops/{radiatorloopid}/buildings/{buildingid}/temperaturesensors/:
     get:
       description: List all indoor temperature sensors in the building relevant for the agent.
       tags:
-        - Radioator loops      
+        - Radioator loops
+      responses:
+        200:
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: './schemas/Sensor.yaml' 
+
+        401:
+          $ref: '#/components/responses/NotAuthorized'
+        500:
+          $ref: '#/components/responses/Error' 
+
   /heatingsystem/{id}/radiatorloops/:
     get:
       description: List all radiatorloops connected to the heating system.      
       tags:
         - Radioator loops      
       responses:
-        '200':
+        200:
           content:
             application/json:
               schema:
                 $ref: './schemas/RadiatorLoop.yaml'
-  /sensors/{id}/current/:
+        401:
+          $ref: '#/components/responses/NotAuthorized'
+        500:
+          $ref: '#/components/responses/Error'
+##################################################                
+# SENSORS
+##################################################
+  /sensors/{id}/observations/latest:
     get:
-      description: Returns the most recent observation of the sensor. Can be implemented as a real time value or be the most recent value pushed to central storage.
+      description: >
+        Returns the most recent observation of the sensor. 
+        Can be implemented as a real time value or be the most recent value pushed to central storage.
       tags:
-        - Sensors and recommendations    
+        - Sensors    
       responses:
-        '200':
+        200:
           content:
             application/json:
               schema:
                 $ref: './schemas/Observation.yaml'
-  /sensors/{id}/history/:
+        401:
+          $ref: '#/components/responses/NotAuthorized'
+        404:
+          description: Not found
+        500:
+          $ref: '#/components/responses/Error'                
+  /sensors/{id}/observations:
+    description: >
+      Returns stored historical observations for the sensor. The API doesn't support pagination in this version, 
+      the consumer is expected to paginate using time intervals that are managable from a data volume 
+      and response time perspective.
     get:
       tags:
-        - Sensors and recommendations
+        - Sensors
+      parameters:
+        - in: query
+          name: startTime
+          required: true
+          schema:
+            type: string
+          format: date-time
+          description: First point in time for the observation history request.
+        - in: query
+          name: endTime
+          required: true
+          schema:
+            type: string
+          format: date-time
+          description: Last point in time for the observation history request.
       responses:
-        '200':
+        200:
           content:
             application/json:
-            # TODO Meta data in return value with limit, next, previous etc.
               schema:
                 type: array
                 items:
                   $ref: './schemas/Observation.yaml'
-# TODO Add parameters
-  /recommendations/{id}:
-  # Bör inte vara modellerad som en actuator utan som en offset-rekomendation
-  # Tre värden: Tidpunkt start, tidpunkt slut, offset i grader C
-  # Förslag att lägga till ett fjärde med "agent-ID" för att särskilja flera agenter
-  # Advice, propsal, proposition, 
-    post:
-      tags:
-        - Sensors and recommendations
-      responses:
-        '200':
-          content:
-            application/json:
-
+        401:
+          $ref: '#/components/responses/NotAuthorized'
+        404:
+          description: Not found
+        500:
+          $ref: '#/components/responses/Error'
 
 components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
   parameters:
     $ref: "./parameters/_index.yaml"
   schemas:
     $ref: "./schemas/_index.yaml"
   responses:
-    $ref: "./responses/_index.yaml"
+    NotAuthorized:
+      description: The requester is unauthorized.
+      content:
+        application/json:
+          schema:
+            $ref: './schemas/Error.yaml'
+    Error:
+      description: An error occured.
+      content:
+        application/json:
+          schema:
+            $ref: './schemas/Error.yaml'   

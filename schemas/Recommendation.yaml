@@ -1,11 +1,11 @@
 type: object
 description: >
   A recommendation is the target radiator loop feed temperature offset suggested by 
-  the agent. The receiving heating system can choose to use the recommendation or discard it
+  the agent. The receiving heating system can choose to use the recommendation or disregard it
   based on controller logic using multiple recommendation agents or prioritizations.
 
 required:
-  - id
+  - offset
 properties:
   offset:
     description: Recommended offset in degrees celcius from the configured heating curve. 

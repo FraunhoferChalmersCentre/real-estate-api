@@ -1,5 +1,5 @@
 type: object
-description: A physical building served by a parent heating system.
+description: A sensor is a thing providing observations.
 required:
   - id
 properties:
@@ -7,9 +7,13 @@ properties:
     description: An ID, can be any unique ID defined by the implementer. Use URL friendly characters.
     type: string
     maxLength: 36
-  name:
+  description:
     type: string
-    description: Building name or street name(s)
-  city:
+    description: Description.
+  unitOfMeasure:
     type: string
-    description: The city the building is located in. Used for weather predictions. 
+    description: Unit of measure for values from this sensor.
+    enum:
+      - C
+      - Wh
+      

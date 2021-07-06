@@ -1,6 +1,7 @@
 type: object
 description: An observed value from a sensor.
 required:
+  - observationTime
   - value
 properties:
   observationTime:

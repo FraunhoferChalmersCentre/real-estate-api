@@ -4,8 +4,9 @@ required:
   - id
 properties:
   id:
-    description: An ID, can be any unique ID defined by the implementer. Shouldn't exceed 36 characters (the length of a UUID)
+    description: An ID, can be any unique ID defined by the implementer. Use URL friendly characters.
     type: string
+    maxLength: 36
   feedTemperatureSensorId:
     type: string
     description: The ID of the water feed temperature sensor.

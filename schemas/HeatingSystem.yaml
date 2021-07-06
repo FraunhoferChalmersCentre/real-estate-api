@@ -1,11 +1,15 @@
 type: object
-description: A heating system is a closed system with a connected hot water source.
+description: >
+  A heating system is a closed system with a connected hot water based energy source.
 required:
   - id
+  - feedTemperatureSensorId
+  - returnTemperatureSensorId
 properties:
   id:
-    description: An ID, can be any unique ID defined by the implementer. Shouldn't exceed 36 characters (the length of a UUID)
+    description: An ID, can be any unique ID defined by the implementer. Use URL friendly characters.
     type: string
+    maxLength: 36
   name:
     type: string
     description: A common description of the heating system
@@ -21,11 +25,10 @@ properties:
   outdoorTemperatureSensorId:
     type: string
     description: The ID of the outdoor temperature sensor.
-  targetTemperatureOffsetRecommendationId:
-    type: string
-    description: The target ID for heating system recommendations.
   additionalEnergySources:
-    description: A list of additional energy sources.
+    description: >
+      A list of additional energy sources. Could be a system like a geothermal heat pump or 
+      different kinds of heat recovery systems only active at certain peak demand times or certain parts of the year. 
     type: array
     items:
       type: object
@@ -36,7 +39,5 @@ properties:
         description:
           type: string
           description: Description of the energy source
-
-# TODO Tillskottsenergi från t ex värmeåtervinning
   
       
