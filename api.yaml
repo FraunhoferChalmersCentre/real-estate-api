@@ -42,7 +42,7 @@ paths:
         500:
           $ref: '#/components/responses/Error'
 
-  /heatingsystem/{id}:
+  /heatingsystems/{id}:
     get:
       description: Get metadata for a heatingsystem
       tags:
@@ -58,7 +58,7 @@ paths:
         500:
           $ref: '#/components/responses/Error'
 
-  /heatingsystem/{id}/heatingcurve:
+  /heatingsystems/{id}/heatingcurve:
     get:
       description: >
         Returns the configured heating curve for this heating system.
@@ -73,7 +73,7 @@ paths:
         500:
           $ref: '#/components/responses/Error'
 
-  /heatingsystem/{id}/recommendations:
+  /heatingsystems/{id}/recommendations:
     post:
       tags:
         - Heating Systems
@@ -92,7 +92,7 @@ paths:
 # RADIATOR LOOPS
 ##################################################
 
-  /heatingsystem/{id}/radiatorloops:
+  /heatingsystems/{id}/radiatorloops:
     get:
       description: List all radiatorloops connected to the heating system.      
       tags:
@@ -108,7 +108,7 @@ paths:
         500:
           $ref: '#/components/responses/Error'
 
-  /heatingsystem/{id}/radiatorloops/{radiatorloopid}/buildings:
+  /heatingsystems/{id}/radiatorloops/{radiatorloopid}/buildings:
     get:
       description: List all buildings served by this radiator loop.
       tags:
@@ -126,7 +126,7 @@ paths:
         500:
           $ref: '#/components/responses/Error'
 
-  /heatingsystem/{id}/radiatorloops/{radiatorloopid}/buildings/{buildingid}/temperaturesensors:
+  /heatingsystems/{id}/radiatorloops/{radiatorloopid}/buildings/{buildingid}/temperaturesensors:
     get:
       description: List all indoor temperature sensors in the building relevant for the agent.
       tags:
