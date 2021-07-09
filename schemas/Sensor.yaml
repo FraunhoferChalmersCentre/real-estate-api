@@ -1,0 +1,19 @@
+type: object
+description: A sensor is a thing providing observations.
+required:
+  - id
+properties:
+  id:
+    description: An ID, can be any unique ID defined by the implementer. Use URL friendly characters.
+    type: string
+    maxLength: 36
+  description:
+    type: string
+    description: Description.
+  unitOfMeasure:
+    type: string
+    description: Unit of measure for values from this sensor.
+    enum:
+      - C
+      - Wh
+      
