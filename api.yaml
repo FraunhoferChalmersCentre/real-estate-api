@@ -14,16 +14,16 @@ info:
     1. The agent recommendation is received by the local building automation system and used to adjust actuators
 
 servers:
-  - url: '{server}/v1'
+  - url: "{server}/v1"
     variables:
       server:
         default: https://api.realestateowner.com
 security:
-  - bearerAuth: [] 
+  - bearerAuth: []
 paths:
-##################################################                
-# HEATING SYSTEMS
-##################################################
+  ##################################################
+  # HEATING SYSTEMS
+  ##################################################
   /heatingsystems:
     get:
       description: Lists all available heatingsystems.
@@ -31,32 +31,36 @@ paths:
         - Heating Systems
       responses:
         200:
+          description: heating systems
           content:
             application/json:
               schema:
                 type: array
                 items:
-                  $ref: './schemas/HeatingSystem.yaml'
+                  $ref: "#/components/schemas/HeatingSystem"
         401:
-          $ref: '#/components/responses/NotAuthorized'
+          $ref: "#/components/responses/NotAuthorized"
         500:
-          $ref: '#/components/responses/Error'
+          $ref: "#/components/responses/Error"
 
   /heatingsystems/{id}:
     get:
       description: Get metadata for a heatingsystem
       tags:
-        - Heating Systems      
+        - Heating Systems
+      parameters:
+        - $ref: '#/components/parameters/idParam'
       responses:
         200:
+          description: heating system
           content:
             application/json:
               schema:
-                $ref: './schemas/HeatingSystem.yaml'
+                $ref: "#/components/schemas/HeatingSystem"
         401:
-          $ref: '#/components/responses/NotAuthorized'
+          $ref: "#/components/responses/NotAuthorized"
         500:
-          $ref: '#/components/responses/Error'
+          $ref: "#/components/responses/Error"
 
   /heatingsystems/{id}/heatingcurve:
     get:
@@ -66,107 +70,127 @@ paths:
         not all heating systems are controlled using a heating curve.
       tags:
         - Heating Systems
+      parameters:
+        - $ref: '#/components/parameters/idParam'
       responses:
         200:
+          description: heating curve
         401:
-          $ref: '#/components/responses/NotAuthorized'
+          $ref: "#/components/responses/NotAuthorized"
         500:
-          $ref: '#/components/responses/Error'
+          $ref: "#/components/responses/Error"
 
   /heatingsystems/{id}/recommendations:
     post:
       tags:
         - Heating Systems
+      parameters:
+        - $ref: '#/components/parameters/idParam'
       responses:
         200:
+          description: recommendations
           content:
             application/json:
               schema:
-                $ref: './schemas/Recommendation.yaml'
+                $ref: "#/components/schemas/Recommendation"
         401:
-          $ref: '#/components/responses/NotAuthorized'
+          $ref: "#/components/responses/NotAuthorized"
         500:
-          $ref: '#/components/responses/Error'
+          $ref: "#/components/responses/Error"
 
-##################################################                
-# RADIATOR LOOPS
-##################################################
+  ##################################################
+  # RADIATOR LOOPS
+  ##################################################
 
   /heatingsystems/{id}/radiatorloops:
     get:
-      description: List all radiatorloops connected to the heating system.      
+      description: List all radiatorloops connected to the heating system.
       tags:
-        - Radiator loops      
+        - Radiator loops
+      parameters:
+        - $ref: '#/components/parameters/idParam'
       responses:
         200:
+          description: radiator loops
           content:
             application/json:
               schema:
-                $ref: './schemas/RadiatorLoop.yaml'
+                $ref: "#/components/schemas/RadiatorLoop"
         401:
-          $ref: '#/components/responses/NotAuthorized'
+          $ref: "#/components/responses/NotAuthorized"
         500:
-          $ref: '#/components/responses/Error'
+          $ref: "#/components/responses/Error"
 
   /heatingsystems/{id}/radiatorloops/{radiatorloopid}/buildings:
     get:
       description: List all buildings served by this radiator loop.
       tags:
         - Radiator loops
+      parameters:
+        - $ref: '#/components/parameters/idParam'
+        - $ref: '#/components/parameters/radiatorLoopIdParam'
       responses:
         200:
+          description: buildings
           content:
             application/json:
               schema:
                 type: array
                 items:
-                  $ref: './schemas/Building.yaml'  
+                  $ref: "#/components/schemas/Building"
         401:
-          $ref: '#/components/responses/NotAuthorized'
+          $ref: "#/components/responses/NotAuthorized"
         500:
-          $ref: '#/components/responses/Error'
+          $ref: "#/components/responses/Error"
 
   /heatingsystems/{id}/radiatorloops/{radiatorloopid}/buildings/{buildingid}/temperaturesensors:
     get:
       description: List all indoor temperature sensors in the building relevant for the agent.
       tags:
         - Radiator loops
+      parameters:
+        - $ref: '#/components/parameters/idParam'
+        - $ref: '#/components/parameters/radiatorLoopIdParam'
+        - $ref: '#/components/parameters/buildingIdParam'
       responses:
         200:
+          description: temperature sensors
           content:
             application/json:
               schema:
                 type: array
                 items:
-                  $ref: './schemas/Sensor.yaml' 
+                  $ref: "#/components/schemas/Sensor"
 
         401:
-          $ref: '#/components/responses/NotAuthorized'
+          $ref: "#/components/responses/NotAuthorized"
         500:
-          $ref: '#/components/responses/Error' 
+          $ref: "#/components/responses/Error"
 
-
-##################################################                
-# SENSORS
-##################################################
+  ##################################################
+  # SENSORS
+  ##################################################
 
   /sensors/{id}:
     get:
       description: Metadata for a sensor.
       tags:
-        - Sensors    
+        - Sensors
+      parameters:
+        - $ref: '#/components/parameters/idParam'
       responses:
         200:
+          description: sensor
           content:
             application/json:
               schema:
-                $ref: './schemas/Sensor.yaml'
+                $ref: "#/components/schemas/Sensor"
         401:
-          $ref: '#/components/responses/NotAuthorized'
+          $ref: "#/components/responses/NotAuthorized"
         404:
           description: Not found
         500:
-          $ref: '#/components/responses/Error'
+          $ref: "#/components/responses/Error"
 
   /sensors/{id}/observations/latest:
     get:
@@ -174,20 +198,22 @@ paths:
         Returns the most recent observation of the sensor. 
         Can be implemented as a real time value or be the most recent value pushed to central storage.
       tags:
-        - Sensors    
+        - Sensors
+      parameters:
+        - $ref: '#/components/parameters/idParam'
       responses:
         200:
+          description: latest observation
           content:
             application/json:
               schema:
-                $ref: './schemas/Observation.yaml'
+                $ref: "#/components/schemas/Observation"
         401:
-          $ref: '#/components/responses/NotAuthorized'
+          $ref: "#/components/responses/NotAuthorized"
         404:
           description: Not found
         500:
-          $ref: '#/components/responses/Error'
-
+          $ref: "#/components/responses/Error"
 
   /sensors/{id}/observations:
     description: >
@@ -198,34 +224,36 @@ paths:
       tags:
         - Sensors
       parameters:
+        - $ref: '#/components/parameters/idParam'
         - in: query
           name: startTime
           required: true
           schema:
             type: string
-          format: date-time
+            format: date-time
           description: First point in time for the observation history request.
         - in: query
           name: endTime
           required: true
           schema:
             type: string
-          format: date-time
+            format: date-time
           description: Last point in time for the observation history request.
       responses:
         200:
+          description: observation
           content:
             application/json:
               schema:
                 type: array
                 items:
-                  $ref: './schemas/Observation.yaml'
+                  $ref: "#/components/schemas/Observation"
         401:
-          $ref: '#/components/responses/NotAuthorized'
+          $ref: "#/components/responses/NotAuthorized"
         404:
           description: Not found
         500:
-          $ref: '#/components/responses/Error'
+          $ref: "#/components/responses/Error"
 
 components:
   securitySchemes:
@@ -233,19 +261,50 @@ components:
       type: http
       scheme: bearer
   parameters:
-    $ref: "./parameters/_index.yaml"
+    idParam:
+      name: id
+      in: path
+      required: true
+      description: unique ID
+      schema:
+        type: string
+    radiatorLoopIdParam:
+      name: radiatorloopid
+      in: path
+      required: true
+      description: unique ID
+      schema:
+        type: string
+    buildingIdParam:
+      name: buildingid
+      in: path
+      required: true
+      description: unique ID
+      schema:
+        type: string
   schemas:
-    $ref: "./schemas/_index.yaml"
+    HeatingSystem:
+      $ref: "./schemas/HeatingSystem.yaml"
+    RadiatorLoop:
+      $ref: "./schemas/RadiatorLoop.yaml"
+    Observation:
+      $ref: "./schemas/Observation.yaml"
+    Building:
+      $ref: "./schemas/Building.yaml"
+    Recommendation:
+      $ref: "./schemas/Recommendation.yaml"
+    Sensor:
+      $ref: "./schemas/Sensor.yaml"
   responses:
     NotAuthorized:
       description: The requester is unauthorized.
       content:
         application/json:
           schema:
-            $ref: './schemas/Error.yaml'
+            $ref: "./schemas/Error.yaml"
     Error:
       description: An error occured.
       content:
         application/json:
           schema:
-            $ref: './schemas/Error.yaml'   
+            $ref: "./schemas/Error.yaml"

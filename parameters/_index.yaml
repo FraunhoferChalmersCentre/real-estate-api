@@ -1,5 +1,0 @@
-substation_id:
-  $ref: './path/substation_id.yaml'
-
-#substation_type:
-#  $ref: './path/substation_type.yaml'
