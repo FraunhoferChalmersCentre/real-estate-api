@@ -37,7 +37,7 @@ paths:
               schema:
                 type: array
                 items:
-                  $ref: "./schemas/HeatingSystem.yaml"
+                  $ref: "#/components/schemas/HeatingSystem"
         401:
           $ref: "#/components/responses/NotAuthorized"
         500:
@@ -56,7 +56,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "./schemas/HeatingSystem.yaml"
+                $ref: "#/components/schemas/HeatingSystem"
         401:
           $ref: "#/components/responses/NotAuthorized"
         500:
@@ -92,7 +92,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "./schemas/Recommendation.yaml"
+                $ref: "#/components/schemas/Recommendation"
         401:
           $ref: "#/components/responses/NotAuthorized"
         500:
@@ -115,7 +115,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "./schemas/RadiatorLoop.yaml"
+                $ref: "#/components/schemas/RadiatorLoop"
         401:
           $ref: "#/components/responses/NotAuthorized"
         500:
@@ -137,7 +137,7 @@ paths:
               schema:
                 type: array
                 items:
-                  $ref: "./schemas/Building.yaml"
+                  $ref: "#/components/schemas/Building"
         401:
           $ref: "#/components/responses/NotAuthorized"
         500:
@@ -207,7 +207,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "./schemas/Observation.yaml"
+                $ref: "#/components/schemas/Observation"
         401:
           $ref: "#/components/responses/NotAuthorized"
         404:
@@ -247,7 +247,7 @@ paths:
               schema:
                 type: array
                 items:
-                  $ref: "./schemas/Observation.yaml"
+                  $ref: "#/components/schemas/Observation"
         401:
           $ref: "#/components/responses/NotAuthorized"
         404:
@@ -282,6 +282,17 @@ components:
       description: unique ID
       schema:
         type: string
+  schemas:
+    HeatingSystem:
+      $ref: "./schemas/HeatingSystem.yaml"
+    RadiatorLoop:
+      $ref: "./schemas/RadiatorLoop.yaml"
+    Observation:
+      $ref: "./schemas/Observation.yaml"
+    Building:
+      $ref: "./schemas/Building.yaml"
+    Recommendation:
+      $ref: "./schemas/Recommendation.yaml"
   responses:
     NotAuthorized:
       description: The requester is unauthorized.
