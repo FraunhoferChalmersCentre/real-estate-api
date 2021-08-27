@@ -31,7 +31,7 @@ paths:
         - Heating Systems
       responses:
         200:
-          description: placeholder
+          description: heating systems
           content:
             application/json:
               schema:
@@ -52,7 +52,7 @@ paths:
         - $ref: '#/components/parameters/idParam'
       responses:
         200:
-          description: placeholder
+          description: heating system
           content:
             application/json:
               schema:
@@ -74,7 +74,7 @@ paths:
         - $ref: '#/components/parameters/idParam'
       responses:
         200:
-          description: placeholder
+          description: heating curve
         401:
           $ref: "#/components/responses/NotAuthorized"
         500:
@@ -88,7 +88,7 @@ paths:
         - $ref: '#/components/parameters/idParam'
       responses:
         200:
-          description: placeholder
+          description: recommendations
           content:
             application/json:
               schema:
@@ -111,7 +111,7 @@ paths:
         - $ref: '#/components/parameters/idParam'
       responses:
         200:
-          description: placeholder
+          description: radiator loops
           content:
             application/json:
               schema:
@@ -131,7 +131,7 @@ paths:
         - $ref: '#/components/parameters/radiatorLoopIdParam'
       responses:
         200:
-          description: placeholder
+          description: buildings
           content:
             application/json:
               schema:
@@ -154,7 +154,7 @@ paths:
         - $ref: '#/components/parameters/buildingIdParam'
       responses:
         200:
-          description: placeholder
+          description: temperature sensors
           content:
             application/json:
               schema:
@@ -180,7 +180,7 @@ paths:
         - $ref: '#/components/parameters/idParam'
       responses:
         200:
-          description: placeholder
+          description: sensor
           content:
             application/json:
               schema:
@@ -203,7 +203,7 @@ paths:
         - $ref: '#/components/parameters/idParam'
       responses:
         200:
-          description: placeholder
+          description: latest observation
           content:
             application/json:
               schema:
@@ -241,7 +241,7 @@ paths:
           description: Last point in time for the observation history request.
       responses:
         200:
-          description: placeholder
+          description: observation
           content:
             application/json:
               schema:
