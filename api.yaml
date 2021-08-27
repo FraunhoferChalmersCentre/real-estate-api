@@ -160,7 +160,7 @@ paths:
               schema:
                 type: array
                 items:
-                  $ref: "./schemas/Sensor.yaml"
+                  $ref: "#/components/schemas/Sensor"
 
         401:
           $ref: "#/components/responses/NotAuthorized"
@@ -184,7 +184,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "./schemas/Sensor.yaml"
+                $ref: "#/components/schemas/Sensor"
         401:
           $ref: "#/components/responses/NotAuthorized"
         404:
@@ -293,6 +293,8 @@ components:
       $ref: "./schemas/Building.yaml"
     Recommendation:
       $ref: "./schemas/Recommendation.yaml"
+    Sensor:
+      $ref: "./schemas/Sensor.yaml"
   responses:
     NotAuthorized:
       description: The requester is unauthorized.
