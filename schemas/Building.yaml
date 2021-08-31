@@ -12,4 +12,4 @@ properties:
     description: Building name or street name(s)
   city:
     type: string
-    description: The city the building is located in. Used for weather predictions. 
+    description: The city the building is located in. Used for weather predictions.

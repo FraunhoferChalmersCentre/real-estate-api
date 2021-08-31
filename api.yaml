@@ -49,7 +49,7 @@ paths:
       tags:
         - Heating Systems
       parameters:
-        - $ref: '#/components/parameters/idParam'
+        - $ref: "#/components/parameters/idParam"
       responses:
         200:
           description: heating system
@@ -71,7 +71,7 @@ paths:
       tags:
         - Heating Systems
       parameters:
-        - $ref: '#/components/parameters/idParam'
+        - $ref: "#/components/parameters/idParam"
       responses:
         200:
           description: heating curve
@@ -85,7 +85,7 @@ paths:
       tags:
         - Heating Systems
       parameters:
-        - $ref: '#/components/parameters/idParam'
+        - $ref: "#/components/parameters/idParam"
       responses:
         200:
           description: recommendations
@@ -108,7 +108,7 @@ paths:
       tags:
         - Radiator loops
       parameters:
-        - $ref: '#/components/parameters/idParam'
+        - $ref: "#/components/parameters/idParam"
       responses:
         200:
           description: radiator loops
@@ -127,8 +127,8 @@ paths:
       tags:
         - Radiator loops
       parameters:
-        - $ref: '#/components/parameters/idParam'
-        - $ref: '#/components/parameters/radiatorLoopIdParam'
+        - $ref: "#/components/parameters/idParam"
+        - $ref: "#/components/parameters/radiatorLoopIdParam"
       responses:
         200:
           description: buildings
@@ -143,15 +143,15 @@ paths:
         500:
           $ref: "#/components/responses/Error"
 
-  /heatingsystems/{id}/radiatorloops/{radiatorloopid}/buildings/{buildingid}/temperaturesensors:
-    get:
+  ? /heatingsystems/{id}/radiatorloops/{radiatorloopid}/buildings/{buildingid}/temperaturesensors
+  : get:
       description: List all indoor temperature sensors in the building relevant for the agent.
       tags:
         - Radiator loops
       parameters:
-        - $ref: '#/components/parameters/idParam'
-        - $ref: '#/components/parameters/radiatorLoopIdParam'
-        - $ref: '#/components/parameters/buildingIdParam'
+        - $ref: "#/components/parameters/idParam"
+        - $ref: "#/components/parameters/radiatorLoopIdParam"
+        - $ref: "#/components/parameters/buildingIdParam"
       responses:
         200:
           description: temperature sensors
@@ -177,7 +177,7 @@ paths:
       tags:
         - Sensors
       parameters:
-        - $ref: '#/components/parameters/idParam'
+        - $ref: "#/components/parameters/idParam"
       responses:
         200:
           description: sensor
@@ -200,7 +200,7 @@ paths:
       tags:
         - Sensors
       parameters:
-        - $ref: '#/components/parameters/idParam'
+        - $ref: "#/components/parameters/idParam"
       responses:
         200:
           description: latest observation
@@ -224,7 +224,7 @@ paths:
       tags:
         - Sensors
       parameters:
-        - $ref: '#/components/parameters/idParam'
+        - $ref: "#/components/parameters/idParam"
         - in: query
           name: startTime
           required: true

@@ -8,7 +8,7 @@ required:
   - offset
 properties:
   offset:
-    description: Recommended offset in degrees celcius from the configured heating curve. 
+    description: Recommended offset in degrees celcius from the configured heating curve.
     type: number
   validFrom:
     type: string

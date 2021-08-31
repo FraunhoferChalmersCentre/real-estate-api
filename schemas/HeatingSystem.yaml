@@ -28,7 +28,7 @@ properties:
   additionalEnergySources:
     description: >
       A list of additional energy sources. Could be a system like a geothermal heat pump or 
-      different kinds of heat recovery systems only active at certain peak demand times or certain parts of the year. 
+      different kinds of heat recovery systems only active at certain peak demand times or certain parts of the year.
     type: array
     items:
       type: object
@@ -39,5 +39,3 @@ properties:
         description:
           type: string
           description: Description of the energy source
-  
-      
