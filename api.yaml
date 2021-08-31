@@ -80,19 +80,28 @@ paths:
         500:
           $ref: "#/components/responses/Error"
 
-  /heatingsystems/{id}/recommendations:
+  /heatingsystems/{id}/recommendation:
     post:
+      description: Posts a new recommendation for the heating system.
       tags:
         - Heating Systems
       parameters:
         - $ref: "#/components/parameters/idParam"
+      requestBody:
+        description: Recommendation
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Recommendation"
+            example:
+              offset: 4
+              validFrom: 2021-08-22T17:02:28Z
+              validTo: 2021-08-22T18:02:28Z
+              agentId: 6c177c92-2fdb-421e-99e2-ee1db193d1a3
       responses:
-        200:
-          description: recommendations
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/Recommendation"
+        201:
+          description: Created
         401:
           $ref: "#/components/responses/NotAuthorized"
         500:
