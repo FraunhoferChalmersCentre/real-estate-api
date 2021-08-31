@@ -115,7 +115,9 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/RadiatorLoop"
+                type: array
+                items:
+                  $ref: "#/components/schemas/RadiatorLoop"
         401:
           $ref: "#/components/responses/NotAuthorized"
         500:
