@@ -29,6 +29,7 @@ paths:
       description: Lists all available heatingsystems.
       tags:
         - Heating Systems
+      operationId: listHeatingSystems
       responses:
         200:
           description: heating systems
@@ -48,6 +49,7 @@ paths:
       description: Get metadata for a heatingsystem
       tags:
         - Heating Systems
+      operationId: getHeatingSystem
       parameters:
         - $ref: "#/components/parameters/idParam"
       responses:
@@ -70,6 +72,7 @@ paths:
         not all heating systems are controlled using a heating curve.
       tags:
         - Heating Systems
+      operationId: getHeatingCurve
       parameters:
         - $ref: "#/components/parameters/idParam"
       responses:
@@ -85,6 +88,7 @@ paths:
       description: Posts a new recommendation for the heating system.
       tags:
         - Heating Systems
+      operationId: updateRecommendation
       parameters:
         - $ref: "#/components/parameters/idParam"
       requestBody:
@@ -116,6 +120,7 @@ paths:
       description: List all radiatorloops connected to the heating system.
       tags:
         - Radiator loops
+      operationId: listRadiatorLoops
       parameters:
         - $ref: "#/components/parameters/idParam"
       responses:
@@ -137,6 +142,7 @@ paths:
       description: List all buildings served by this radiator loop.
       tags:
         - Radiator loops
+      operationId: listBuildnings
       parameters:
         - $ref: "#/components/parameters/idParam"
         - $ref: "#/components/parameters/radiatorLoopIdParam"
@@ -159,6 +165,7 @@ paths:
       description: List all indoor temperature sensors in the building relevant for the agent.
       tags:
         - Radiator loops
+      operationId: listTemperatureSensors
       parameters:
         - $ref: "#/components/parameters/idParam"
         - $ref: "#/components/parameters/radiatorLoopIdParam"
@@ -187,6 +194,7 @@ paths:
       description: Metadata for a sensor.
       tags:
         - Sensors
+      operationId: getSensor
       parameters:
         - $ref: "#/components/parameters/idParam"
       responses:
@@ -210,6 +218,7 @@ paths:
         Can be implemented as a real time value or be the most recent value pushed to central storage.
       tags:
         - Sensors
+      operationId: getLatestSensorObservation
       parameters:
         - $ref: "#/components/parameters/idParam"
       responses:
@@ -234,6 +243,7 @@ paths:
     get:
       tags:
         - Sensors
+      operationId: getSensorObservations
       parameters:
         - $ref: "#/components/parameters/idParam"
         - in: query
