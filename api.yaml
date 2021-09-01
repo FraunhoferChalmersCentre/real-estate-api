@@ -3,7 +3,7 @@ info:
   version: 1.0.0
   title: Real Estate heating system API
   description: |
-    API implemented by real estate owners. Exposes meta data, sensor observations and the 
+    API implemented by real estate owners. Exposes meta data, sensor observations and the
     capability of receiving heat system control recommendations from an external agent.
 
     Example use case of adding a new heating system to a recommendation agent and start making recommendations:
@@ -18,6 +18,14 @@ servers:
     variables:
       server:
         default: https://api.realestateowner.com
+      testHeatingSystemId:
+        default: aHeatingSystemId
+      testRadiatorLoopId:
+        default: aRadiatorLoopId
+      testBuildingId:
+        default: aBuildingId
+      testSensorId:
+        default: aSensorId
 security:
   - bearerAuth: []
 paths:
@@ -44,14 +52,14 @@ paths:
         500:
           $ref: "#/components/responses/Error"
 
-  /heatingsystems/{id}:
+  /heatingsystems/{heatingSystemId}:
     get:
       description: Get metadata for a heatingsystem
       tags:
         - Heating Systems
       operationId: getHeatingSystem
       parameters:
-        - $ref: "#/components/parameters/idParam"
+        - $ref: '#/components/parameters/heatingSystemIdParam'
       responses:
         200:
           description: heating system
@@ -64,17 +72,17 @@ paths:
         500:
           $ref: "#/components/responses/Error"
 
-  /heatingsystems/{id}/heatingcurve:
+  /heatingsystems/{heatingSystemId}/heatingcurve:
     get:
       description: >
         Returns the configured heating curve for this heating system.
-        Data format is still TBD. Will most likely be optional since 
+        Data format is still TBD. Will most likely be optional since
         not all heating systems are controlled using a heating curve.
       tags:
         - Heating Systems
       operationId: getHeatingCurve
       parameters:
-        - $ref: "#/components/parameters/idParam"
+        - $ref: '#/components/parameters/heatingSystemIdParam'
       responses:
         200:
           description: heating curve
@@ -83,14 +91,14 @@ paths:
         500:
           $ref: "#/components/responses/Error"
 
-  /heatingsystems/{id}/recommendation:
+  /heatingsystems/{heatingSystemId}/recommendation:
     post:
       description: Posts a new recommendation for the heating system.
       tags:
         - Heating Systems
       operationId: updateRecommendation
       parameters:
-        - $ref: "#/components/parameters/idParam"
+        - $ref: '#/components/parameters/heatingSystemIdParam'
       requestBody:
         description: Recommendation
         required: true
@@ -115,14 +123,14 @@ paths:
   # RADIATOR LOOPS
   ##################################################
 
-  /heatingsystems/{id}/radiatorloops:
+  /heatingsystems/{heatingSystemId}/radiatorloops:
     get:
       description: List all radiatorloops connected to the heating system.
       tags:
         - Radiator loops
       operationId: listRadiatorLoops
       parameters:
-        - $ref: "#/components/parameters/idParam"
+        - $ref: '#/components/parameters/heatingSystemIdParam'
       responses:
         200:
           description: radiator loops
@@ -137,15 +145,15 @@ paths:
         500:
           $ref: "#/components/responses/Error"
 
-  /heatingsystems/{id}/radiatorloops/{radiatorloopid}/buildings:
+  /heatingsystems/{heatingSystemId}/radiatorloops/{radiatorLoopId}/buildings:
     get:
       description: List all buildings served by this radiator loop.
       tags:
         - Radiator loops
       operationId: listBuildnings
       parameters:
-        - $ref: "#/components/parameters/idParam"
-        - $ref: "#/components/parameters/radiatorLoopIdParam"
+        - $ref: '#/components/parameters/heatingSystemIdParam'
+        - $ref: '#/components/parameters/radiatorLoopIdParam'
       responses:
         200:
           description: buildings
@@ -160,16 +168,16 @@ paths:
         500:
           $ref: "#/components/responses/Error"
 
-  ? /heatingsystems/{id}/radiatorloops/{radiatorloopid}/buildings/{buildingid}/temperaturesensors
+  ? /heatingsystems/{heatingSystemId}/radiatorloops/{radiatorLoopId}/buildings/{buildingId}/temperaturesensors
   : get:
       description: List all indoor temperature sensors in the building relevant for the agent.
       tags:
         - Radiator loops
       operationId: listTemperatureSensors
       parameters:
-        - $ref: "#/components/parameters/idParam"
-        - $ref: "#/components/parameters/radiatorLoopIdParam"
-        - $ref: "#/components/parameters/buildingIdParam"
+        - $ref: '#/components/parameters/heatingSystemIdParam'
+        - $ref: '#/components/parameters/radiatorLoopIdParam'
+        - $ref: '#/components/parameters/buildingIdParam'
       responses:
         200:
           description: temperature sensors
@@ -189,14 +197,14 @@ paths:
   # SENSORS
   ##################################################
 
-  /sensors/{id}:
+  /sensors/{sensorId}:
     get:
       description: Metadata for a sensor.
       tags:
         - Sensors
       operationId: getSensor
       parameters:
-        - $ref: "#/components/parameters/idParam"
+        - $ref: '#/components/parameters/sensorIdParam'
       responses:
         200:
           description: sensor
@@ -211,16 +219,16 @@ paths:
         500:
           $ref: "#/components/responses/Error"
 
-  /sensors/{id}/observations/latest:
+  /sensors/{sensorId}/observations/latest:
     get:
       description: >
-        Returns the most recent observation of the sensor. 
+        Returns the most recent observation of the sensor.
         Can be implemented as a real time value or be the most recent value pushed to central storage.
       tags:
         - Sensors
       operationId: getLatestSensorObservation
       parameters:
-        - $ref: "#/components/parameters/idParam"
+        - $ref: '#/components/parameters/sensorIdParam'
       responses:
         200:
           description: latest observation
@@ -235,17 +243,17 @@ paths:
         500:
           $ref: "#/components/responses/Error"
 
-  /sensors/{id}/observations:
+  /sensors/{sensorId}/observations:
     description: >
-      Returns stored historical observations for the sensor. The API doesn't support pagination in this version, 
-      the consumer is expected to paginate using time intervals that are managable from a data volume 
+      Returns stored historical observations for the sensor. The API doesn't support pagination in this version,
+      the consumer is expected to paginate using time intervals that are managable from a data volume
       and response time perspective.
     get:
       tags:
         - Sensors
       operationId: getSensorObservations
       parameters:
-        - $ref: "#/components/parameters/idParam"
+        - $ref: '#/components/parameters/sensorIdParam'
         - in: query
           name: startTime
           required: true
@@ -282,22 +290,29 @@ components:
       type: http
       scheme: bearer
   parameters:
-    idParam:
-      name: id
+    heatingSystemIdParam:
+      name: heatingSystemId
       in: path
       required: true
       description: unique ID
       schema:
         type: string
     radiatorLoopIdParam:
-      name: radiatorloopid
+      name: radiatorLoopId
       in: path
       required: true
       description: unique ID
       schema:
         type: string
     buildingIdParam:
-      name: buildingid
+      name: buildingId
+      in: path
+      required: true
+      description: unique ID
+      schema:
+        type: string
+    sensorIdParam:
+      name: sensorId
       in: path
       required: true
       description: unique ID
