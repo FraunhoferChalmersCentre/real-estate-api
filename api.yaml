@@ -49,7 +49,7 @@ paths:
       tags:
         - Heating Systems
       parameters:
-        - $ref: '#/components/parameters/idParam'
+        - $ref: "#/components/parameters/idParam"
       responses:
         200:
           description: heating system
@@ -71,7 +71,7 @@ paths:
       tags:
         - Heating Systems
       parameters:
-        - $ref: '#/components/parameters/idParam'
+        - $ref: "#/components/parameters/idParam"
       responses:
         200:
           description: heating curve
@@ -80,19 +80,28 @@ paths:
         500:
           $ref: "#/components/responses/Error"
 
-  /heatingsystems/{id}/recommendations:
+  /heatingsystems/{id}/recommendation:
     post:
+      description: Posts a new recommendation for the heating system.
       tags:
         - Heating Systems
       parameters:
-        - $ref: '#/components/parameters/idParam'
+        - $ref: "#/components/parameters/idParam"
+      requestBody:
+        description: Recommendation
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Recommendation"
+            example:
+              offset: 4
+              validFrom: 2021-08-22T17:02:28Z
+              validTo: 2021-08-22T18:02:28Z
+              agentId: 6c177c92-2fdb-421e-99e2-ee1db193d1a3
       responses:
-        200:
-          description: recommendations
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/Recommendation"
+        201:
+          description: Created
         401:
           $ref: "#/components/responses/NotAuthorized"
         500:
@@ -108,14 +117,16 @@ paths:
       tags:
         - Radiator loops
       parameters:
-        - $ref: '#/components/parameters/idParam'
+        - $ref: "#/components/parameters/idParam"
       responses:
         200:
           description: radiator loops
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/RadiatorLoop"
+                type: array
+                items:
+                  $ref: "#/components/schemas/RadiatorLoop"
         401:
           $ref: "#/components/responses/NotAuthorized"
         500:
@@ -127,8 +138,8 @@ paths:
       tags:
         - Radiator loops
       parameters:
-        - $ref: '#/components/parameters/idParam'
-        - $ref: '#/components/parameters/radiatorLoopIdParam'
+        - $ref: "#/components/parameters/idParam"
+        - $ref: "#/components/parameters/radiatorLoopIdParam"
       responses:
         200:
           description: buildings
@@ -143,15 +154,15 @@ paths:
         500:
           $ref: "#/components/responses/Error"
 
-  /heatingsystems/{id}/radiatorloops/{radiatorloopid}/buildings/{buildingid}/temperaturesensors:
-    get:
+  ? /heatingsystems/{id}/radiatorloops/{radiatorloopid}/buildings/{buildingid}/temperaturesensors
+  : get:
       description: List all indoor temperature sensors in the building relevant for the agent.
       tags:
         - Radiator loops
       parameters:
-        - $ref: '#/components/parameters/idParam'
-        - $ref: '#/components/parameters/radiatorLoopIdParam'
-        - $ref: '#/components/parameters/buildingIdParam'
+        - $ref: "#/components/parameters/idParam"
+        - $ref: "#/components/parameters/radiatorLoopIdParam"
+        - $ref: "#/components/parameters/buildingIdParam"
       responses:
         200:
           description: temperature sensors
@@ -177,7 +188,7 @@ paths:
       tags:
         - Sensors
       parameters:
-        - $ref: '#/components/parameters/idParam'
+        - $ref: "#/components/parameters/idParam"
       responses:
         200:
           description: sensor
@@ -200,7 +211,7 @@ paths:
       tags:
         - Sensors
       parameters:
-        - $ref: '#/components/parameters/idParam'
+        - $ref: "#/components/parameters/idParam"
       responses:
         200:
           description: latest observation
@@ -224,7 +235,7 @@ paths:
       tags:
         - Sensors
       parameters:
-        - $ref: '#/components/parameters/idParam'
+        - $ref: "#/components/parameters/idParam"
         - in: query
           name: startTime
           required: true

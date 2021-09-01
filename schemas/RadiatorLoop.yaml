@@ -16,4 +16,3 @@ properties:
   energyMeterSensorId:
     type: string
     description: The ID of the energy meter.
-      
