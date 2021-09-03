@@ -2,6 +2,8 @@ type: object
 description: A physical building served by a parent heating system.
 required:
   - id
+  - name
+  - city
 properties:
   id:
     description: An ID, can be any unique ID defined by the implementer. Use URL friendly characters.

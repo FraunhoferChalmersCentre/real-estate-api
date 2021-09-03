@@ -2,6 +2,8 @@ type: object
 description: A sensor is a thing providing observations.
 required:
   - id
+  - description
+  - unitOfMeasure
 properties:
   id:
     description: An ID, can be any unique ID defined by the implementer. Use URL friendly characters.

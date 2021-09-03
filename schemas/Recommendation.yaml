@@ -6,6 +6,9 @@ description: >
 
 required:
   - offset
+  - validFrom
+  - validTo
+  - agentId
 properties:
   offset:
     description: Recommended offset in degrees celcius from the configured heating curve.
