@@ -1,0 +1,31 @@
+FROM node:16.8 as portman_build
+RUN npm install --prefix /portman -g @apideck/portman
+
+FROM node:16.8 AS api_bundle
+
+ARG oas=api.yaml
+COPY ./$oas /openapi/
+COPY ./schemas /openapi/schemas
+WORKDIR /openapi
+
+RUN npm install -g @apidevtools/swagger-cli && \
+    swagger-cli validate $oas && \
+    swagger-cli bundle $oas -t yaml -o /oas/api.yaml
+
+FROM python:3.9
+
+ARG uid=1000
+ENV N_PREFIX="/tools/n"
+ENV PATH="/tools/portman/bin:${N_PREFIX}/bin:$PATH"
+COPY --from=portman_build /portman /tools/portman
+
+# Install NodeJS 16.8 (N_PREFIX makes sure this installation is visible)
+RUN curl -L https://git.io/n-install | bash -s -- -y 16.8 && \
+    adduser --system --gecos '' --home /home/dockeruser --uid $uid  --group --disabled-password dockeruser
+USER dockeruser
+
+WORKDIR $HOME/portman-wrapper
+COPY ./postman-tests/portman-wrapper .
+COPY --from=api_bundle /oas/api.yaml ./
+
+ENTRYPOINT [ "python3", "portman.py", "api.yaml", "-o", "/mnt/host/postman_tests.json", "-c", "portman-config.json"]

@@ -1,0 +1,51 @@
+# Generate Postman server tests
+
+When developing a server that implements an OpenAPI Specification (OAS) it is helpful to have simple tests that verify some basic functionality.
+By using a tool called [portman](https://github.com/apideck-libraries/portman), we can from just the OAS automatically create such tests that can be imported into [Postman](https://www.postman.com/).
+
+For each GET path in the OAS, the following tests are generated:
+* Verify that the server responds with a 2xx [HTTP status code](https://developer.mozilla.org/en-US/docs/Web/HTTP/Status#successful_responses)
+* Verify that the expected content header is set (usually `application/json`)
+* If JSON is expected in the response:
+  - Verify that the body has valid JSON
+  - Verify that the body adheres to the specified JSON-schema
+
+For convenience, the procedure and the required dependencies are bundled in a Docker image.
+
+## Example
+
+We provide two simple shell scripts that builds the image and runs the container respectively.
+
+Build:
+```
+$ ./build_image.sh
+```
+You'll need to re-build if the API specification changes.
+
+Generate the Postman test collection:
+```
+$ ./create_postman_tests.sh
+```
+
+You should see a JSON file written to your current directory:
+```
+$ ls -l | grep *.json
+-rw-r--r-- 1 adrian adrian 105316 Sep  6 11:35 postman_tests.json
+```
+
+This is the file Postman can import.
+
+## Windows users
+On Windows, you have two alternatives.
+
+### Use a Unix environment
+The [example](#Examlpe) should work as-is if executed in a Unix environment such as Git Bash or Windows Subsystem for Linux (WSL).
+
+### Manually run the docker commands
+
+If you choose to work in PowerShell, you can build the container with:
+PS real-estate-api> docker build -f .\postman-tests\Dockerfile.oas-to-postman -t fcc-sys/oas-to-postman .
+```
+Note that you should be in the `real-estate-api` directory to send the appropriate build context.
+
+To run the container, use the same command as in `create_postman_tests.sh`.
