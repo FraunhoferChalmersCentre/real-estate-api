@@ -24,8 +24,8 @@ RUN curl -L https://git.io/n-install | bash -s -- -y 16.8 && \
     adduser --system --gecos '' --home /home/dockeruser --uid $uid  --group --disabled-password dockeruser
 USER dockeruser
 
-WORKDIR $HOME/portman-wrapper
-COPY ./postman-tests/portman-wrapper .
-COPY --from=api_bundle /oas/api.yaml ./
+COPY --chown=dockeruser ./postman-tests/portman-wrapper /home/dockeruser/portman-wrapper/
+COPY --chown=dockeruser --from=api_bundle /oas/api.yaml /home/dockeruser/portman-wrapper/
+WORKDIR /home/dockeruser/portman-wrapper
 
 ENTRYPOINT [ "python3", "portman.py", "api.yaml", "-o", "/mnt/host/postman_tests.json", "-c", "portman-config.json"]
