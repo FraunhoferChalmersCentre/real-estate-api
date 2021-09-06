@@ -18,14 +18,6 @@ servers:
     variables:
       server:
         default: https://api.realestateowner.com
-      testHeatingSystemId:
-        default: aHeatingSystemId
-      testRadiatorLoopId:
-        default: aRadiatorLoopId
-      testBuildingId:
-        default: aBuildingId
-      testSensorId:
-        default: aSensorId
 security:
   - bearerAuth: []
 paths:
