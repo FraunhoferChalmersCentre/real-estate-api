@@ -20,17 +20,17 @@ Build:
 ```
 $ ./build_image.sh
 ```
-You'll need to re-build if the API specification changes.
 
 Generate the Postman test collection:
 ```
 $ ./create_postman_tests.sh
 ```
 
-You should see a JSON file written to your current directory:
+You should see a JSON file in the top directory:
 ```
-$ ls -l | grep *.json
--rw-r--r-- 1 adrian adrian 105316 Sep  6 11:35 postman_tests.json
+$ cd ..
+real-estate-api$ ls -l | grep *.json
+-rw-r--r-- 1 adrian adrian 93002 Sep  6 17:25 postman_tests.json
 ```
 
 This is the file Postman can import.
@@ -41,11 +41,15 @@ On Windows, you have two alternatives.
 ### Use a Unix environment
 The [example](#Examlpe) should work as-is if executed in a Unix environment such as Git Bash or Windows Subsystem for Linux (WSL).
 
-### Manually run the docker commands
+### Build manually
 
 If you choose to work in PowerShell, you can build the container with:
+```
 PS real-estate-api> docker build -f .\postman-tests\Dockerfile.oas-to-postman -t fcc-sys/oas-to-postman .
 ```
 Note that you should be in the `real-estate-api` directory to send the appropriate build context.
 
-To run the container, use the same command as in `create_postman_tests.sh`.
+To run the container, use the PowerShell script:
+```
+PS postman-tests> .\create_postman_tests.ps1
+```
