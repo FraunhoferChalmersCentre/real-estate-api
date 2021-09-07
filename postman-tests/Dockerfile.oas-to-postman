@@ -26,4 +26,4 @@ USER dockeruser
 COPY --chown=dockeruser ./postman-tests/portman-wrapper /home/dockeruser/portman-wrapper/
 WORKDIR /home/dockeruser/portman-wrapper
 
-ENTRYPOINT [ "python3", "portman.py", "/mnt/host/api.yaml", "-o", "/mnt/host/postman_tests.json", "-c", "portman-config.json"]
+ENTRYPOINT [ "python3", "portman.py", "/mnt/host/api.yaml", "-o", "/mnt/host/postman-tests/postman_tests.json", "-c", "portman-config.json"]

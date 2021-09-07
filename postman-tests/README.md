@@ -25,14 +25,11 @@ Generate the Postman test collection:
 ```
 $ ./create_postman_tests.sh
 ```
-
-You should see a JSON file in the top directory:
+As long as the image is already built, you can run this script anytime you change the API to generate new tests. Afterwards, you should see a JSON file in the current directory:
 ```
-$ cd ..
-real-estate-api$ ls -l | grep *.json
--rw-r--r-- 1 adrian adrian 93002 Sep  6 17:25 postman_tests.json
+$ ls -l | grep *.json
+-rw-r--r-- 1 adrian adrian 93013 Sep  7 10:17 postman_tests.json
 ```
-
 This is the file Postman can import.
 
 ## Windows users
