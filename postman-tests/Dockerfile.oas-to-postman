@@ -1,17 +1,26 @@
-FROM node:16.8 as npm_build
+FROM node:16.8-slim as npm_build
 RUN npm install --prefix tools/portman -g @apideck/portman && \
     npm install --prefix tools/swagger-cli -g @apidevtools/swagger-cli
 
-FROM python:3.9
+FROM python:3.9-slim
 
 ARG uid=1000
 ENV N_PREFIX="/tools/n"
 ENV PATH="/tools/portman/bin:/tools/swagger-cli/bin:${N_PREFIX}/bin:$PATH"
 COPY --from=npm_build /tools /tools
 
+RUN apt-get update && apt-get install -y \
+    bash \
+    git \
+    make\
+    curl \
+ && rm -rf /var/lib/apt/lists/*
+
 # Install NodeJS 16.8 (N_PREFIX makes sure this installation is visible)
-RUN curl -L https://git.io/n-install | bash -s -- -y 16.8 && \
-    adduser --system --gecos '' --home /home/dockeruser --uid $uid  --group --disabled-password dockeruser
+RUN ["bash", "-c", \
+    "set -o pipefail && \
+    curl -L https://git.io/n-install | bash -esxo pipefail -- -y 16.8 && \
+    adduser --system --gecos '' --home /home/dockeruser --uid $uid  --group --disabled-password dockeruser"]
 USER dockeruser
 
 COPY --chown=dockeruser ./postman-tests/portman-wrapper /home/dockeruser/portman-wrapper/
