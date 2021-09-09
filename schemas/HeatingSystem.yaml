@@ -3,8 +3,12 @@ description: >
   A heating system is a closed system with a connected hot water based energy source.
 required:
   - id
+  - name
   - feedTemperatureSensorId
   - returnTemperatureSensorId
+  - energyMeterSensorId
+  - outdoorTemperatureSensorId
+  - additionalEnergySources
 properties:
   id:
     description: An ID, can be any unique ID defined by the implementer. Use URL friendly characters.
@@ -32,6 +36,9 @@ properties:
     type: array
     items:
       type: object
+      required:
+        - sensorId
+        - description
       properties:
         sensorId:
           type: string
