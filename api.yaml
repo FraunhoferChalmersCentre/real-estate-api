@@ -42,7 +42,7 @@ paths:
         401:
           $ref: "#/components/responses/NotAuthorized"
         500:
-          $ref: "#/components/responses/Error"
+          $ref: "#/components/responses/ServerError"
 
   /heatingsystems/{heatingSystemId}:
     get:
@@ -61,8 +61,10 @@ paths:
                 $ref: "#/components/schemas/HeatingSystem"
         401:
           $ref: "#/components/responses/NotAuthorized"
+        404:
+          $ref: "#/components/responses/NotFound"
         500:
-          $ref: "#/components/responses/Error"
+          $ref: "#/components/responses/ServerError"
 
   /heatingsystems/{heatingSystemId}/heatingcurve:
     get:
@@ -80,8 +82,10 @@ paths:
           description: heating curve
         401:
           $ref: "#/components/responses/NotAuthorized"
+        404:
+          $ref: "#/components/responses/NotFound"
         500:
-          $ref: "#/components/responses/Error"
+          $ref: "#/components/responses/ServerError"
 
   /heatingsystems/{heatingSystemId}/recommendation:
     post:
@@ -108,8 +112,10 @@ paths:
           description: Created
         401:
           $ref: "#/components/responses/NotAuthorized"
+        404:
+          $ref: "#/components/responses/NotFound"
         500:
-          $ref: "#/components/responses/Error"
+          $ref: "#/components/responses/ServerError"
 
   ##################################################
   # RADIATOR LOOPS
@@ -134,8 +140,10 @@ paths:
                   $ref: "#/components/schemas/RadiatorLoop"
         401:
           $ref: "#/components/responses/NotAuthorized"
+        404:
+          $ref: "#/components/responses/NotFound"
         500:
-          $ref: "#/components/responses/Error"
+          $ref: "#/components/responses/ServerError"
 
   /heatingsystems/{heatingSystemId}/radiatorloops/{radiatorLoopId}/buildings:
     get:
@@ -157,8 +165,10 @@ paths:
                   $ref: "#/components/schemas/Building"
         401:
           $ref: "#/components/responses/NotAuthorized"
+        404:
+          $ref: "#/components/responses/NotFound"
         500:
-          $ref: "#/components/responses/Error"
+          $ref: "#/components/responses/ServerError"
 
   ? /heatingsystems/{heatingSystemId}/radiatorloops/{radiatorLoopId}/buildings/{buildingId}/temperaturesensors
   : get:
@@ -182,8 +192,10 @@ paths:
 
         401:
           $ref: "#/components/responses/NotAuthorized"
+        404:
+          $ref: "#/components/responses/NotFound"
         500:
-          $ref: "#/components/responses/Error"
+          $ref: "#/components/responses/ServerError"
 
   ##################################################
   # SENSORS
@@ -207,9 +219,9 @@ paths:
         401:
           $ref: "#/components/responses/NotAuthorized"
         404:
-          description: Not found
+          $ref: "#/components/responses/NotFound"
         500:
-          $ref: "#/components/responses/Error"
+          $ref: "#/components/responses/ServerError"
 
   /sensors/{sensorId}/observations/latest:
     get:
@@ -231,9 +243,9 @@ paths:
         401:
           $ref: "#/components/responses/NotAuthorized"
         404:
-          description: Not found
+          $ref: "#/components/responses/NotFound"
         500:
-          $ref: "#/components/responses/Error"
+          $ref: "#/components/responses/ServerError"
 
   /sensors/{sensorId}/observations:
     description: >
@@ -272,9 +284,9 @@ paths:
         401:
           $ref: "#/components/responses/NotAuthorized"
         404:
-          description: Not found
+          $ref: "#/components/responses/NotFound"
         500:
-          $ref: "#/components/responses/Error"
+          $ref: "#/components/responses/ServerError"
 
 components:
   securitySchemes:
@@ -330,7 +342,13 @@ components:
         application/json:
           schema:
             $ref: "./schemas/Error.yaml"
-    Error:
+    NotFound:
+      description: The requested resource does not exist.
+      content:
+        application/json:
+          schema:
+            $ref: "./schemas/Error.yaml"
+    ServerError:
       description: An error occured.
       content:
         application/json:
