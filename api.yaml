@@ -59,6 +59,8 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/HeatingSystem"
+        400:
+          $ref: "#/components/responses/BadRequest"
         401:
           $ref: "#/components/responses/NotAuthorized"
         404:
@@ -80,6 +82,8 @@ paths:
       responses:
         200:
           description: heating curve
+        400:
+          $ref: "#/components/responses/BadRequest"
         401:
           $ref: "#/components/responses/NotAuthorized"
         404:
@@ -110,6 +114,8 @@ paths:
       responses:
         201:
           description: Created
+        400:
+          $ref: "#/components/responses/BadRequest"
         401:
           $ref: "#/components/responses/NotAuthorized"
         404:
@@ -138,6 +144,8 @@ paths:
                 type: array
                 items:
                   $ref: "#/components/schemas/RadiatorLoop"
+        400:
+          $ref: "#/components/responses/BadRequest"
         401:
           $ref: "#/components/responses/NotAuthorized"
         404:
@@ -163,6 +171,8 @@ paths:
                 type: array
                 items:
                   $ref: "#/components/schemas/Building"
+        400:
+          $ref: "#/components/responses/BadRequest"
         401:
           $ref: "#/components/responses/NotAuthorized"
         404:
@@ -190,6 +200,8 @@ paths:
                 items:
                   $ref: "#/components/schemas/Sensor"
 
+        400:
+          $ref: "#/components/responses/BadRequest"
         401:
           $ref: "#/components/responses/NotAuthorized"
         404:
@@ -216,6 +228,8 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/Sensor"
+        400:
+          $ref: "#/components/responses/BadRequest"
         401:
           $ref: "#/components/responses/NotAuthorized"
         404:
@@ -240,6 +254,8 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/Observation"
+        400:
+          $ref: "#/components/responses/BadRequest"
         401:
           $ref: "#/components/responses/NotAuthorized"
         404:
@@ -281,6 +297,8 @@ paths:
                 type: array
                 items:
                   $ref: "#/components/schemas/Observation"
+        400:
+          $ref: "#/components/responses/BadRequest"
         401:
           $ref: "#/components/responses/NotAuthorized"
         404:
@@ -336,6 +354,12 @@ components:
     Sensor:
       $ref: "./schemas/Sensor.yaml"
   responses:
+    BadRequest:
+      description: The request cannot be processed.
+      content:
+        application/json:
+          schema:
+            $ref: "./schemas/Error.yaml"
     NotAuthorized:
       description: The requester is unauthorized.
       content:
