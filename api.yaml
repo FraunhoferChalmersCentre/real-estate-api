@@ -41,8 +41,8 @@ paths:
                   $ref: "#/components/schemas/HeatingSystem"
         401:
           $ref: "#/components/responses/NotAuthorized"
-        500:
-          $ref: "#/components/responses/Error"
+        default:
+          $ref: "#/components/responses/UnexpectedError"
 
   /heatingsystems/{heatingSystemId}:
     get:
@@ -59,10 +59,14 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/HeatingSystem"
+        400:
+          $ref: "#/components/responses/BadRequest"
         401:
           $ref: "#/components/responses/NotAuthorized"
-        500:
-          $ref: "#/components/responses/Error"
+        404:
+          $ref: "#/components/responses/NotFound"
+        default:
+          $ref: "#/components/responses/UnexpectedError"
 
   /heatingsystems/{heatingSystemId}/heatingcurve:
     get:
@@ -78,10 +82,14 @@ paths:
       responses:
         200:
           description: heating curve
+        400:
+          $ref: "#/components/responses/BadRequest"
         401:
           $ref: "#/components/responses/NotAuthorized"
-        500:
-          $ref: "#/components/responses/Error"
+        404:
+          $ref: "#/components/responses/NotFound"
+        default:
+          $ref: "#/components/responses/UnexpectedError"
 
   /heatingsystems/{heatingSystemId}/recommendation:
     post:
@@ -106,10 +114,14 @@ paths:
       responses:
         201:
           description: Created
+        400:
+          $ref: "#/components/responses/BadRequest"
         401:
           $ref: "#/components/responses/NotAuthorized"
-        500:
-          $ref: "#/components/responses/Error"
+        404:
+          $ref: "#/components/responses/NotFound"
+        default:
+          $ref: "#/components/responses/UnexpectedError"
 
   ##################################################
   # RADIATOR LOOPS
@@ -132,10 +144,14 @@ paths:
                 type: array
                 items:
                   $ref: "#/components/schemas/RadiatorLoop"
+        400:
+          $ref: "#/components/responses/BadRequest"
         401:
           $ref: "#/components/responses/NotAuthorized"
-        500:
-          $ref: "#/components/responses/Error"
+        404:
+          $ref: "#/components/responses/NotFound"
+        default:
+          $ref: "#/components/responses/UnexpectedError"
 
   /heatingsystems/{heatingSystemId}/radiatorloops/{radiatorLoopId}/buildings:
     get:
@@ -155,10 +171,14 @@ paths:
                 type: array
                 items:
                   $ref: "#/components/schemas/Building"
+        400:
+          $ref: "#/components/responses/BadRequest"
         401:
           $ref: "#/components/responses/NotAuthorized"
-        500:
-          $ref: "#/components/responses/Error"
+        404:
+          $ref: "#/components/responses/NotFound"
+        default:
+          $ref: "#/components/responses/UnexpectedError"
 
   ? /heatingsystems/{heatingSystemId}/radiatorloops/{radiatorLoopId}/buildings/{buildingId}/temperaturesensors
   : get:
@@ -180,10 +200,14 @@ paths:
                 items:
                   $ref: "#/components/schemas/Sensor"
 
+        400:
+          $ref: "#/components/responses/BadRequest"
         401:
           $ref: "#/components/responses/NotAuthorized"
-        500:
-          $ref: "#/components/responses/Error"
+        404:
+          $ref: "#/components/responses/NotFound"
+        default:
+          $ref: "#/components/responses/UnexpectedError"
 
   ##################################################
   # SENSORS
@@ -204,12 +228,14 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/Sensor"
+        400:
+          $ref: "#/components/responses/BadRequest"
         401:
           $ref: "#/components/responses/NotAuthorized"
         404:
-          description: Not found
-        500:
-          $ref: "#/components/responses/Error"
+          $ref: "#/components/responses/NotFound"
+        default:
+          $ref: "#/components/responses/UnexpectedError"
 
   /sensors/{sensorId}/observations/latest:
     get:
@@ -228,12 +254,14 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/Observation"
+        400:
+          $ref: "#/components/responses/BadRequest"
         401:
           $ref: "#/components/responses/NotAuthorized"
         404:
-          description: Not found
-        500:
-          $ref: "#/components/responses/Error"
+          $ref: "#/components/responses/NotFound"
+        default:
+          $ref: "#/components/responses/UnexpectedError"
 
   /sensors/{sensorId}/observations:
     description: >
@@ -269,12 +297,14 @@ paths:
                 type: array
                 items:
                   $ref: "#/components/schemas/Observation"
+        400:
+          $ref: "#/components/responses/BadRequest"
         401:
           $ref: "#/components/responses/NotAuthorized"
         404:
-          description: Not found
-        500:
-          $ref: "#/components/responses/Error"
+          $ref: "#/components/responses/NotFound"
+        default:
+          $ref: "#/components/responses/UnexpectedError"
 
 components:
   securitySchemes:
@@ -324,14 +354,26 @@ components:
     Sensor:
       $ref: "./schemas/Sensor.yaml"
   responses:
+    BadRequest:
+      description: The request cannot be processed.
+      content:
+        application/json:
+          schema:
+            $ref: "./schemas/Error.yaml"
     NotAuthorized:
       description: The requester is unauthorized.
       content:
         application/json:
           schema:
             $ref: "./schemas/Error.yaml"
-    Error:
-      description: An error occured.
+    NotFound:
+      description: The requested resource does not exist.
+      content:
+        application/json:
+          schema:
+            $ref: "./schemas/Error.yaml"
+    UnexpectedError:
+      description: Unexpected error.
       content:
         application/json:
           schema:
