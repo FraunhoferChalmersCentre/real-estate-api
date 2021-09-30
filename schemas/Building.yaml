@@ -16,7 +16,7 @@ properties:
   altenateIds:
     description: >
       A collection of alternate keys by which a building can be identified. Implemented as free form object. Intended usage is
-      to be able to link to other systems. Intended usage is to be able to link to other systems.
+      to be able to link to other systems.
     type: object
     maxLength: 128
     example:

@@ -8,7 +8,7 @@ required:
   - returnTemperatureSensorId
   - energyMeterSensorId
   - outdoorTemperatureSensorId
-  - additionalEnergySource
+  - additionalEnergySources
   - location
 properties:
   id:
@@ -30,9 +30,10 @@ properties:
   outdoorTemperatureSensorId:
     type: string
     description: The ID of the outdoor temperature sensor.
-  altenateIds:
+  alternateIds:
     description: >
       A collection of alternate keys by which the heating system can be identified. Implemented as free form object.
+      Intended usage is to be able to link to other systems.
     type: object
     example:
       eon_id: 7
