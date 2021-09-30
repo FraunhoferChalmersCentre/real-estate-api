@@ -1,0 +1,22 @@
+type: object
+description: >
+  The geographical location of an entity. Used for weather predictions. Longitude and latitude are marked as optional.
+  In the case where lon/lat is provided, these values are used for weather predictions. In the case where only a common_name
+  is provided, a controlling agent may choose to implement defaults for known values of common_name, e.g., Stockholm, Göteborg, Malmö, Örebro.
+required:
+  - common_name
+properties:
+  city:
+    type: string
+    maxLength: 64
+    description: >
+      The common name of the location an entity is located in.
+    example: "Göteborg"
+  latitude:
+    type: number
+    description:
+      Latitude
+  longitude:
+    type: number
+    description: >
+      Longitude
