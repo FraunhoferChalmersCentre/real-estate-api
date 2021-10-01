@@ -13,14 +13,13 @@ properties:
     description: Building name or street name(s)
   location:
     $ref: './Location.yaml'
-  altenateIds:
+  alternateIds:
     description: >
-      A collection of alternate keys by which a building can be identified. Implemented as free form object. Intended usage is
+      A collection of alternate keys by which a building can be identified. Implemented as string-to-string key-value pairs. Intended usage is
       to be able to link to other systems.
     type: object
     maxLength: 128
     example:
       tax_agency_id: "Fastighetsvägen 11 LGH1101"
-      complicated_composite_id:
-        building_group_id: "some_group"
-        group_serial_number: 3
+      complicated_composite_id.building_group_id: "some_group"
+      complicated_composite_id.group_serial_number: "3"
