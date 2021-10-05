@@ -32,15 +32,17 @@ properties:
     description: The ID of the outdoor temperature sensor.
   alternateIds:
     description: >
-      A collection of alternate keys by which the heating system can be identified. Implemented as free form object.
+      A collection of alternate keys by which the heating system can be identified. Implemented as string-to-string key-value pairs.
       Intended usage is to be able to link to other systems.
     type: object
+    additionalProperties:
+      type: string
+      maxLength: 256
     example:
-      eon_id: 7
-      modbus_id: 13
-      complicated_composite_id:
-        cost_location: "Financial Department 1"
-        cost_location_id: 17
+      EON.id: "7"
+      modbus_id: "13"
+      complicated_composite_id.cost_location: "Financial Department 1"
+      complicated_composite_id.cost_location_id: "17"
   owner:
     description: >
       Optional information regarding the owner of the Heating System. Primary use case is when the api provider manages
