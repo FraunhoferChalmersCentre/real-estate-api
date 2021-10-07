@@ -13,7 +13,7 @@ properties:
       The common name of the location an entity is located in.
     example: "Göteborg"
   coordinates:
-    type: objects
+    type: object
     description: >
       Geographical coordinates in WGS 84 format.
     required:
