@@ -18,7 +18,9 @@ properties:
       A collection of alternate keys by which a building can be identified. Implemented as string-to-string key-value pairs. Intended usage is
       to be able to link to other systems.
     type: object
-    maxLength: 128
+    additionalProperties:
+      type: string
+      maxLength: 256
     example:
       tax_agency_id: "Fastighetsvägen 11 LGH1101"
       complicated_composite_id.building_group_id: "some_group"
