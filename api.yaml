@@ -81,7 +81,11 @@ paths:
         - $ref: '#/components/parameters/heatingSystemIdParam'
       responses:
         200:
-          description: heating curve
+          description: Local Temperature Curve Controller
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TemperatureCurve'
         400:
           $ref: "#/components/responses/BadRequest"
         401:
@@ -353,6 +357,8 @@ components:
       $ref: "./schemas/Recommendation.yaml"
     Sensor:
       $ref: "./schemas/Sensor.yaml"
+    TemperatureCurve:
+      $ref: "./schemas/TemperatureCurve.yaml"
   responses:
     BadRequest:
       description: The request cannot be processed.

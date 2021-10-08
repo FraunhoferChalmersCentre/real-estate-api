@@ -16,5 +16,5 @@ properties:
     type: string
     description: Unit of measure for values from this sensor.
     enum:
-      - C
+      - degC
       - Wh

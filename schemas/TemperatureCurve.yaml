@@ -1,0 +1,28 @@
+type: object
+description: >
+  Specification of a local controller supplying heat by means of a Temperature Curve. Formatted as a list of breakpoints,
+  where each breakpoint indicates the supplied feedTemperature for a given outdoorTemperature.
+required:
+  - breakpoints
+properties:
+  breakpoints:
+    type: array
+    items:
+      type: object
+      description: >
+        feedTemperature, outdoorTemperature pair. Provided in the same unitOfMeasure as the corresponding sensors.
+      properties:
+        outdoorTemperature:
+          type: number
+        feedTemperature:
+          type: number
+    example:
+      - outdoorTemperature: -10.0
+        feedTemperature: 75.0
+      - outdoorTemperature: 0.0
+        feedTemperature: 57.0
+  lastModifiedAt:
+    type: string
+    description: >
+      The date-time of the last configuration change to this controller.
+    format: date-time
