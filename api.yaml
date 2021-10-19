@@ -9,18 +9,6 @@ info:
     Details
     Public github repo: https://github.com/fcc-sys/real-estate-api/
 
-    All dates/timestamps must be expressed using ISO 8601 format YYYY-MM-DDThh:mm:ss[.mmm]TZD
-
-    API implemented by real estate owners. Exposes meta data, sensor observations and the capability of receiving heat system control recommendations from an external agent.
-
-    Example use case of adding a new heating system to a recommendation agent and start making recommendations:
-
-    The agent system lists all available heating systems
-    The agent adds a heating system to its collection of managed systems
-    The agent makes multiple calls to the descriptive endpoints and creates a model of the heating system and its connected radiator loops, building and temperature sensors.
-    The agent begin its control cycle by making calls to the /observations/latest endpoint, calculates a posts target feed temperature recommendations to the /recommendations/ endpoint
-    The agent recommendation is received by the local building automation system and used to adjust actuators
-
 servers:
   - url: "{server}/v1"
     variables:
