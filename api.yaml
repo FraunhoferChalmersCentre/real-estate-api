@@ -8,11 +8,8 @@ info:
 
     Details
     Public github repo: https://github.com/fcc-sys/real-estate-api/
-    ------------
 
     All dates/timestamps must be expressed using ISO 8601 format YYYY-MM-DDThh:mm:ss[.mmm]TZD
-
-    ------------
 
     API implemented by real estate owners. Exposes meta data, sensor observations and the capability of receiving heat system control recommendations from an external agent.
 
