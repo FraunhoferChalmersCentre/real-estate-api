@@ -24,7 +24,6 @@ info:
     The agent begin its control cycle by making calls to the /observations/latest endpoint, calculates a posts target feed temperature recommendations to the /recommendations/ endpoint
     The agent recommendation is received by the local building automation system and used to adjust actuators
 
-
 servers:
   - url: "{server}/v1"
     variables:
