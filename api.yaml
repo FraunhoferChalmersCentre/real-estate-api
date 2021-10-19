@@ -3,15 +3,27 @@ info:
   version: 1.0.0
   title: Real Estate heating system API
   description: |
-    API implemented by real estate owners. Exposes meta data, sensor observations and the
-    capability of receiving heat system control recommendations from an external agent.
+    The Real Estate Heating System API provides a high level abstraction of components in a central heating system for multi-dwellings and provides the means to both analyze system behaviour and suggest adjustments without exposing internal details of the building control systems. The API is provided by the real estate owner/facility manager and is responsible for delivering observations, data quality, metadata descriptions of the heat energy flow and access management. Multiple agents can consume the API and fetch observations as often as needed by the use case.
+    Special care has been taken in the API design to facilitate a scale up of operations.
+
+    Details
+    Public github repo: https://github.com/fcc-sys/real-estate-api/
+    ------------
+
+    All dates/timestamps must be expressed using ISO 8601 format YYYY-MM-DDThh:mm:ss[.mmm]TZD
+
+    ------------
+
+    API implemented by real estate owners. Exposes meta data, sensor observations and the capability of receiving heat system control recommendations from an external agent.
 
     Example use case of adding a new heating system to a recommendation agent and start making recommendations:
-    1. The agent system lists all available heating systems
-    1. The agent adds a heating system to its collection of managed systems
-    1. The agent makes multiple calls to the /observations endpoint, creating a model of the heating system and its connected buildings.
-    1. The agent begin its control cycle by making calls to the /observations/latest endpoint, calculates a posts target feed temperature recommendations to the /recommendations/ endpoint
-    1. The agent recommendation is received by the local building automation system and used to adjust actuators
+
+    The agent system lists all available heating systems
+    The agent adds a heating system to its collection of managed systems
+    The agent makes multiple calls to the descriptive endpoints and creates a model of the heating system and its connected radiator loops, building and temperature sensors.
+    The agent begin its control cycle by making calls to the /observations/latest endpoint, calculates a posts target feed temperature recommendations to the /recommendations/ endpoint
+    The agent recommendation is received by the local building automation system and used to adjust actuators
+
 
 servers:
   - url: "{server}/v1"
