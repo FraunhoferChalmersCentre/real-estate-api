@@ -4,6 +4,8 @@ description: >
   where each breakpoint indicates the supplied feedTemperature for a given outdoorTemperature.
 required:
   - breakpoints
+  - minFeedTemperature
+  - maxFeedTemperature
 properties:
   breakpoints:
     type: array
@@ -21,6 +23,14 @@ properties:
         feedTemperature: 75.0
       - outdoorTemperature: 0.0
         feedTemperature: 57.0
+  minFeedTemperature:
+    type: number
+    description: The minimum temperature that the Temperature Curve controller is configured to output. Null can be used to signal that the breakpoint values can be extrapolated.
+    example: 20.0
+  maxFeedTemperature:
+    type: number
+    description: The maximum temperature that the Temperature Curve controller is configured to output. Null can be used to signal that the breakpoint values can be extrapolated.
+    example: 80.0
   lastModifiedAt:
     type: string
     description: >

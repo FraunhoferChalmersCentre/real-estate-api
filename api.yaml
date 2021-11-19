@@ -1,14 +1,15 @@
 openapi: "3.0.0"
 info:
-  version: 1.0.0
+  version: 1.0.0-beta
   title: Real Estate heating system API
   description: |
     API implemented by real estate owners. Exposes meta data, sensor observations and the
     capability of receiving heat system control recommendations from an external agent.
 
     Example use case of adding a new heating system to a recommendation agent and start making recommendations:
-    1. The agent system lists all available heating systems
-    1. The agent adds a heating system to its collection of managed systems
+    1. The agent system lists all available supply connections
+    1. The agent system lists all available heating systems connected to those connections
+    1. The agent adds newly discovered heating systems to its collection of managed systems
     1. The agent makes multiple calls to the /observations endpoint, creating a model of the heating system and its connected buildings.
     1. The agent begin its control cycle by making calls to the /observations/latest endpoint, calculates a posts target feed temperature recommendations to the /recommendations/ endpoint
     1. The agent recommendation is received by the local building automation system and used to adjust actuators
@@ -22,35 +23,80 @@ security:
   - bearerAuth: []
 paths:
   ##################################################
-  # HEATING SYSTEMS
+  # SUPPLY CONNECTIONS
   ##################################################
-  /heatingsystems:
+  /connections:
     get:
-      description: Lists all available heatingsystems.
+      description: Lists all available district heating supply connections.
       tags:
-        - Heating Systems
-      operationId: listHeatingSystems
+        - Supply connections
+      operationId: listSupplyConnections
       responses:
         200:
-          description: heating systems
+          description: supply connections
           content:
             application/json:
               schema:
                 type: array
                 items:
-                  $ref: "#/components/schemas/HeatingSystem"
+                  $ref: "#/components/schemas/SupplyConnection"
+        401:
+          $ref: "#/components/responses/NotAuthorized"
+        default:
+          $ref: "#/components/responses/UnexpectedError"
+  /connections/{connectionId}:
+    get:
+      description: Get metadata for a supply connection.
+      tags:
+        - Supply connections
+      operationId: getSupplyConnection
+      parameters:
+        - $ref: "#/components/parameters/connectionIdParam"
+      responses:
+        200:
+          description: supply connections
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/SupplyConnection"
         401:
           $ref: "#/components/responses/NotAuthorized"
         default:
           $ref: "#/components/responses/UnexpectedError"
 
-  /heatingsystems/{heatingSystemId}:
+  ##################################################
+  # HEATING SYSTEMS
+  ##################################################
+  /connections/{connectionId}/heatingsystems:
+    get:
+      description: Lists all heatingsystems supplied by a specific supply connection.
+      tags:
+        - Heating Systems
+      operationId: listHeatingSystems
+      parameters:
+        - $ref: "#/components/parameters/connectionIdParam"
+      responses:
+        200:
+          description: supply connection
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/SupplyConnection"
+        401:
+          $ref: "#/components/responses/NotAuthorized"
+        default:
+          $ref: "#/components/responses/UnexpectedError"
+
+  /connections/{connectionId}/heatingsystems/{heatingSystemId}:
     get:
       description: Get metadata for a heatingsystem
       tags:
         - Heating Systems
       operationId: getHeatingSystem
       parameters:
+        - $ref: "#/components/parameters/connectionIdParam"
         - $ref: '#/components/parameters/heatingSystemIdParam'
       responses:
         200:
@@ -68,7 +114,7 @@ paths:
         default:
           $ref: "#/components/responses/UnexpectedError"
 
-  /heatingsystems/{heatingSystemId}/heatingcurve:
+  /connections/{connectionId}/heatingsystems/{heatingSystemId}/heatingcurve:
     get:
       description: >
         Returns the configured heating curve for this heating system.
@@ -78,6 +124,7 @@ paths:
         - Heating Systems
       operationId: getHeatingCurve
       parameters:
+        - $ref: "#/components/parameters/connectionIdParam"
         - $ref: '#/components/parameters/heatingSystemIdParam'
       responses:
         200:
@@ -95,13 +142,14 @@ paths:
         default:
           $ref: "#/components/responses/UnexpectedError"
 
-  /heatingsystems/{heatingSystemId}/recommendation:
+  /connections/{connectionId}/heatingsystems/{heatingSystemId}/recommendation:
     post:
       description: Posts a new recommendation for the heating system.
       tags:
         - Heating Systems
       operationId: updateRecommendation
       parameters:
+        - $ref: "#/components/parameters/connectionIdParam"
         - $ref: '#/components/parameters/heatingSystemIdParam'
       requestBody:
         description: Recommendation
@@ -131,13 +179,14 @@ paths:
   # RADIATOR LOOPS
   ##################################################
 
-  /heatingsystems/{heatingSystemId}/radiatorloops:
+  /connections/{connectionId}/heatingsystems/{heatingSystemId}/radiatorloops:
     get:
       description: List all radiatorloops connected to the heating system.
       tags:
         - Radiator loops
       operationId: listRadiatorLoops
       parameters:
+        - $ref: "#/components/parameters/connectionIdParam"
         - $ref: '#/components/parameters/heatingSystemIdParam'
       responses:
         200:
@@ -157,13 +206,14 @@ paths:
         default:
           $ref: "#/components/responses/UnexpectedError"
 
-  /heatingsystems/{heatingSystemId}/radiatorloops/{radiatorLoopId}/buildings:
+  /connections/{connectionId}/heatingsystems/{heatingSystemId}/radiatorloops/{radiatorLoopId}/buildings:
     get:
       description: List all buildings served by this radiator loop.
       tags:
         - Radiator loops
       operationId: listBuildnings
       parameters:
+        - $ref: "#/components/parameters/connectionIdParam"
         - $ref: '#/components/parameters/heatingSystemIdParam'
         - $ref: '#/components/parameters/radiatorLoopIdParam'
       responses:
@@ -184,13 +234,14 @@ paths:
         default:
           $ref: "#/components/responses/UnexpectedError"
 
-  ? /heatingsystems/{heatingSystemId}/radiatorloops/{radiatorLoopId}/buildings/{buildingId}/temperaturesensors
-  : get:
+  /connections/{connectionId}/heatingsystems/{heatingSystemId}/radiatorloops/{radiatorLoopId}/buildings/{buildingId}/temperaturesensors:
+    get:
       description: List all indoor temperature sensors in the building relevant for the agent.
       tags:
         - Radiator loops
       operationId: listTemperatureSensors
       parameters:
+        - $ref: "#/components/parameters/connectionIdParam"
         - $ref: '#/components/parameters/heatingSystemIdParam'
         - $ref: '#/components/parameters/radiatorLoopIdParam'
         - $ref: '#/components/parameters/buildingIdParam'
@@ -316,6 +367,13 @@ components:
       type: http
       scheme: bearer
   parameters:
+    connectionIdParam:
+      name: connectionId
+      in: path
+      required: true
+      description: unique ID
+      schema:
+        type: string
     heatingSystemIdParam:
       name: heatingSystemId
       in: path
@@ -345,6 +403,8 @@ components:
       schema:
         type: string
   schemas:
+    SupplyConnection:
+      $ref: "./schemas/SupplyConnection.yaml"
     HeatingSystem:
       $ref: "./schemas/HeatingSystem.yaml"
     RadiatorLoop:

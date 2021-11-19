@@ -11,8 +11,6 @@ properties:
   name:
     type: string
     description: Building name or street name(s)
-  location:
-    $ref: './Location.yaml'
   alternateIds:
     description: >
       A collection of alternate keys by which a building can be identified. Implemented as string-to-string key-value pairs. Intended usage is

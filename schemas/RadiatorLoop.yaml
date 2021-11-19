@@ -4,7 +4,7 @@ required:
   - id
   - feedTemperatureSensorId
   - returnTemperatureSensorId
-  - energyMeterSensorId
+  #- energyMeterSensorId
 properties:
   id:
     description: An ID, can be any unique ID defined by the implementer. Use URL friendly characters.
