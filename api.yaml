@@ -83,7 +83,9 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/SupplyConnection"
+                type: array
+                items:
+                  $ref: "#/components/schemas/HeatingSystem"
         401:
           $ref: "#/components/responses/NotAuthorized"
         default:
