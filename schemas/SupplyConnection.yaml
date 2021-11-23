@@ -42,10 +42,5 @@ properties:
       complicated_composite_id.cost_location: "Financial Department 1"
       complicated_composite_id.cost_location_id: "17"
       supplier.id: "E.On"
-  owner:
-    description: >
-      Optional information regarding the owner of the Heating System. Primary use case is when the api provider manages
-      real estates belonging to different branches/companies.
-    type: string
   location:
     $ref: "./Location.yaml"

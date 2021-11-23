@@ -9,7 +9,7 @@ required:
   #- energyMeterSensorId
   - outdoorTemperatureSensorId
   - additionalEnergySources
-  #- location
+  - location
 properties:
   id:
     description: An ID, can be any unique ID defined by the implementer. Use URL friendly characters.
@@ -64,3 +64,5 @@ properties:
         description:
           type: string
           description: Description of the energy source
+  location:
+    $ref: "./Location.yaml"
