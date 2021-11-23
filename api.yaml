@@ -32,7 +32,7 @@ paths:
       operationId: listHeatingSystems
       responses:
         200:
-          description: supply connection
+          description: heating systems
           content:
             application/json:
               schema:
