@@ -339,13 +339,6 @@ components:
       type: http
       scheme: bearer
   parameters:
-    connectionIdParam:
-      name: connectionId
-      in: path
-      required: true
-      description: unique ID
-      schema:
-        type: string
     heatingSystemIdParam:
       name: heatingSystemId
       in: path
