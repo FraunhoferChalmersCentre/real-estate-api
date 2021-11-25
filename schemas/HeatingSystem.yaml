@@ -30,6 +30,9 @@ properties:
   outdoorTemperatureSensorId:
     type: string
     description: The ID of the outdoor temperature sensor.
+  isSubsystemTo:
+    type: string
+    description: The ID of the superior heating system.
   alternateIds:
     description: >
       A collection of alternate keys by which the heating system can be identified. Implemented as string-to-string key-value pairs.
