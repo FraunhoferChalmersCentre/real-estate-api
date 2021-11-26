@@ -1,0 +1,46 @@
+type: object
+description: >
+  A connection denotes a physical connection to a district heating supplier.
+  Contains the metadata regarding the sensors on the supply-side of district heating heat exchanger.
+required:
+  - id
+  - name
+  - feedTemperatureSensorId
+  - returnTemperatureSensorId
+  - energyMeterSensorId
+  - location
+properties:
+  id:
+    description: An ID, can be any unique ID defined by the implementer. Use URL friendly characters.
+    type: string
+    maxLength: 36
+  name:
+    type: string
+    description: A common description of the heating system
+  feedTemperatureSensorId:
+    type: string
+    description: The ID of the water feed temperature sensor.
+  returnTemperatureSensorId:
+    type: string
+    description: The ID of the water return temperature sensor.
+  energyMeterSensorId:
+    type: string
+    description: The ID of the supply water energy meter.
+  groupId:
+    type: string
+    description: An id to optionally denote a logical grouping of supply connections.
+  alternateIds:
+    description: >
+      A collection of alternate keys by which the connection can be identified. Implemented as string-to-string key-value pairs.
+      Intended usage is to be able to link to other systems.
+    type: object
+    additionalProperties:
+      type: string
+      maxLength: 256
+    example:
+      EON.id: "7"
+      complicated_composite_id.cost_location: "Financial Department 1"
+      complicated_composite_id.cost_location_id: "17"
+      supplier.id: "E.On"
+  location:
+    $ref: "./Location.yaml"

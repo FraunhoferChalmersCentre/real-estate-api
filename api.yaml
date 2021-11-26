@@ -1,6 +1,6 @@
 openapi: "3.0.0"
 info:
-  version: 1.0.0
+  version: 1.0.0-beta
   title: Real Estate heating system API
   description: |
     API implemented by real estate owners. Exposes meta data, sensor observations and the
@@ -8,7 +8,7 @@ info:
 
     Example use case of adding a new heating system to a recommendation agent and start making recommendations:
     1. The agent system lists all available heating systems
-    1. The agent adds a heating system to its collection of managed systems
+    1. The agent adds newly discovered heating systems to its collection of managed systems
     1. The agent makes multiple calls to the /observations endpoint, creating a model of the heating system and its connected buildings.
     1. The agent begin its control cycle by making calls to the /observations/latest endpoint, calculates a posts target feed temperature recommendations to the /recommendations/ endpoint
     1. The agent recommendation is received by the local building automation system and used to adjust actuators
@@ -26,7 +26,7 @@ paths:
   ##################################################
   /heatingsystems:
     get:
-      description: Lists all available heatingsystems.
+      description: Lists all heatingsystems.
       tags:
         - Heating Systems
       operationId: listHeatingSystems
@@ -59,6 +59,29 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/HeatingSystem"
+        400:
+          $ref: "#/components/responses/BadRequest"
+        401:
+          $ref: "#/components/responses/NotAuthorized"
+        404:
+          $ref: "#/components/responses/NotFound"
+        default:
+          $ref: "#/components/responses/UnexpectedError"
+  /heatingsystems/{heatingSystemId}/supplyconnection:
+    get:
+      description: Get metadata for a heatingsystems supply connection to the district heating network
+      tags:
+        - Heating Systems
+      operationId: getSupplyConnection
+      parameters:
+        - $ref: '#/components/parameters/heatingSystemIdParam'
+      responses:
+        200:
+          description: supply connection
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/SupplyConnection"
         400:
           $ref: "#/components/responses/BadRequest"
         401:
@@ -184,8 +207,8 @@ paths:
         default:
           $ref: "#/components/responses/UnexpectedError"
 
-  ? /heatingsystems/{heatingSystemId}/radiatorloops/{radiatorLoopId}/buildings/{buildingId}/temperaturesensors
-  : get:
+  /heatingsystems/{heatingSystemId}/radiatorloops/{radiatorLoopId}/buildings/{buildingId}/temperaturesensors:
+    get:
       description: List all indoor temperature sensors in the building relevant for the agent.
       tags:
         - Radiator loops
@@ -345,6 +368,8 @@ components:
       schema:
         type: string
   schemas:
+    SupplyConnection:
+      $ref: "./schemas/SupplyConnection.yaml"
     HeatingSystem:
       $ref: "./schemas/HeatingSystem.yaml"
     RadiatorLoop:
