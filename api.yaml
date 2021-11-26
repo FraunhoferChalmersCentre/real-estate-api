@@ -77,7 +77,7 @@ paths:
         - $ref: '#/components/parameters/heatingSystemIdParam'
       responses:
         200:
-          description: heating system
+          description: supply connection
           content:
             application/json:
               schema:

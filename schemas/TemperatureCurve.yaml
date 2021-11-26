@@ -13,6 +13,9 @@ properties:
       type: object
       description: >
         feedTemperature, outdoorTemperature pair. Provided in the same unitOfMeasure as the corresponding sensors.
+      required:
+        - feedTemperature
+        - outdoorTemperature
       properties:
         outdoorTemperature:
           type: number
