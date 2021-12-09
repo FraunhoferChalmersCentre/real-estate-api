@@ -4,8 +4,6 @@ description: >
   where each breakpoint indicates the supplied feedTemperature for a given outdoorTemperature.
 required:
   - breakpoints
-  - minFeedTemperature
-  - maxFeedTemperature
 properties:
   breakpoints:
     type: array
