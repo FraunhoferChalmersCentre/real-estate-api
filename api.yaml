@@ -233,7 +233,30 @@ paths:
   ##################################################
   # SENSORS
   ##################################################
-
+  /sensors/observations/latest:
+    get:
+      description: >
+        Returns the most recent observations of the queried list of sensors
+      tags:
+        - Sensors
+      operationId: getLatestSensorObservationsBySensorIds
+      parameters:
+        - $ref: '#/components/parameters/sensorIdListParam'
+      responses:
+        200:
+          description: latest observations
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/TaggedObservations"
+        400:
+          $ref: "#/components/responses/BadRequest"
+        401:
+          $ref: "#/components/responses/NotAuthorized"
+        404:
+          $ref: "#/components/responses/NotFound"
+        default:
+          $ref: "#/components/responses/UnexpectedError"
   /sensors/{sensorId}:
     get:
       description: Metadata for a sensor.
@@ -257,7 +280,6 @@ paths:
           $ref: "#/components/responses/NotFound"
         default:
           $ref: "#/components/responses/UnexpectedError"
-
   /sensors/{sensorId}/observations/latest:
     get:
       description: >
@@ -326,7 +348,6 @@ paths:
           $ref: "#/components/responses/NotFound"
         default:
           $ref: "#/components/responses/UnexpectedError"
-
 components:
   securitySchemes:
     bearerAuth:
@@ -361,6 +382,16 @@ components:
       description: unique ID
       schema:
         type: string
+    sensorIdListParam:
+      name: sensorIds
+      in: query
+      required: true
+      description: array of unique IDs
+      schema:
+        type: array
+        items:
+          type: string
+          maxLength: 36
   schemas:
     SupplyConnection:
       $ref: "./schemas/SupplyConnection.yaml"
@@ -378,6 +409,8 @@ components:
       $ref: "./schemas/Sensor.yaml"
     TemperatureCurve:
       $ref: "./schemas/TemperatureCurve.yaml"
+    TaggedObservations:
+      $ref: "./schemas/TaggedObservations.yaml"
   responses:
     BadRequest:
       description: The request cannot be processed.
