@@ -19,3 +19,7 @@ properties:
   energyMeterSensorId:
     type: string
     description: The ID of the energy meter.
+  isActiveSensorId:
+    type: string
+    description: The ID of the sensor indicating whether the system is currently active
+
