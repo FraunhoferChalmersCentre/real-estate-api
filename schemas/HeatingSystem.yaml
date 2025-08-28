@@ -30,6 +30,9 @@ properties:
   outdoorTemperatureSensorId:
     type: string
     description: The ID of the outdoor temperature sensor.
+  circulationPumpActiveId:
+    type: string
+    description: The ID of the sensor measuring whether the circulation pump is active.
   isSubsystemTo:
     type: string
     description: The ID of the superior heating system.

@@ -4,6 +4,9 @@ description: >
   the agent. The receiving heating system can choose to use the recommendation or disregard it
   based on controller logic using multiple recommendation agents or prioritizations.
 
+  A recommendation may also provide a recommendation for shutting off or turning on the circulation pump in the system,
+  indicated by the optional circulationPump field.
+
 required:
   - offset
   - validFrom
@@ -27,3 +30,9 @@ properties:
     description: >
       The ID of the agent making the recommendation. 
       Can be used both for tracking the agent as well as different versions of the same agent.
+  circulationPump:
+    type: string
+    enum:
+      - on
+      - off
+    description: Indicates whether the circulation pump should be "on" or "off".
